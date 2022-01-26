@@ -38,4 +38,4 @@ async def plot(fileURL : userURL):
     with open("test.gz", "wb") as f: 
         f.write(data_file.content)
     plot_radar()
-    return {"message": "data plotted for the url"}
+    return {"message": "data plotted for the url."}
