@@ -1,0 +1,15 @@
+spring:
+  profiles: local, junit, default
+  autoconfigure:
+    exclude: org.springframework.cloud.aws.autoconfigure.context.ContextStackAutoConfiguration
+cloud:
+  aws:
+    region:
+      auto: false
+      static: us-east-1
+logging:
+  level:
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: error
