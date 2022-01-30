@@ -1,0 +1,28 @@
+GET http://localhost:3000/users
+
+###
+
+GET http://localhost:3000/users/61f61d9c98626d9962537788
+
+###
+
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+    "username": "nkamble",
+    "reqRadar": "KILX",
+    "reqDateYYYY": "2021",
+    "reqDateMM": "11",
+    "reqDateDD": "05",
+    "reqStartTimeHH": "10",
+    "reqStartTimeMM": "40",
+    "reqStartTimeSS": "09",
+    "reqEndTimeHH": "14",
+    "reqEndTimeMM": "25",
+    "reqEndTimeSS": "01"
+}
+
+###
+
+DELETE http://localhost:3000/users/61f61d9c98626d9962537788
