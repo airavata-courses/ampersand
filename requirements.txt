@@ -1,0 +1,5 @@
+fastapi==0.73.0
+nexradaws==1.1
+pydantic==1.9.0
+requests==2.26.0
+uvicorn>=0.15.0,<0.16.0
