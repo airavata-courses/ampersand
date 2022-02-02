@@ -1,161 +1,69 @@
-<html lang="en">
-    <head>
-        <link rel="shortcut icon" href="#">
-        <link rel="manifest" href="manifest.json">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-        <title>ampersand</title>
-        <style type="text/css">
-            * {
-                box-sizing: border-box;
-                color: black;
-            }
+import React, { useState } from 'react'
+import Axios from 'axios'
 
-            .menu {
-                background: #7cb71c;
-                float: left;
-                width: 20%;
-                height: 80%;
-                text-align: center;
-            }
+function PostForm(){
+    const url = "http://192.168.1.116:3000/users"
+    const [data, setData] = useState({
+        username: "",
+        reqRadar: "",
+        reqDateYYYY: "", 
+        reqDateMM: "",
+        reqDateDD: "",
+        reqStartTimeHH: "",
+        reqStartTimeMM: "",
+        reqStartTimeSS: "",
+        reqEndTimeHH: "",
+        reqEndTimeMM: "",
+        reqEndTimeSS: ""
+    })
 
-            .menu a {
-                background-color: #e5e5e5;
-                padding: 8px;
-                margin-top: 7px;
-                display: block;
-                width: 100%;
-                color: black;
-            }
+    function submit(e){
+        e.preventDefault();
+        Axios.post(url, {
+            username: data.username,
+            reqRadar: data.reqRadar,
+            reqDateYYYY: data.reqDateYYYY, 
+            reqDateMM: data.reqDateMM,
+            reqDateDD: data.reqDateDD,
+            reqStartTimeHH: data.reqStartTimeHH,
+            reqStartTimeMM: data.reqStartTimeMM,
+            reqStartTimeSS: data.reqStartTimeSS,
+            reqEndTimeHH: data.reqEndTimeHH,
+            reqEndTimeMM: data.reqEndTimeMM,
+            reqEndTimeSS: data.reqEndTimeSS
+        })
+        .then(res =>{
+            console.log(res.data)
+        })
+    }
 
-            .vl {
-                border-left: 2px solid grey;
-                height: 500px;
-                margin-left: 30%;
-            }
+    function handle(e){
+        const newdata = {...data}
+        newdata[e.target.id] = e.target.value
+        setData(newdata)
+        console.log(newdata)
+    }
 
-            .main {
-                float: left;
-                width: 60%;
-                padding: 0 20px;
-            }
-
-            .right {
-                background-color: #e5e5e5;
-                float: left;
-                width: 20%;
-                padding: 15px;
-                margin-top: 7px;
-                text-align: center;
-            }
-
-            @media only screen and (max-width: 620px) {
-                /* For mobile phones: */
-                .menu, .main, .right {
-                    width: 100%;
-                }
-            }
-        </style>
-
-        <script>
-
-            // document.getElementById("submit").addEventListener("click", validate);
-
-            function validate(){
-                // document.getElementById("op-image").style.display = "inline-block";
-                
-            // var formData = JSON.stringify($("#myForm").serializeArray());
-            // console.log(formData)
-            
-                var nr_data = {
-                    username : document.getElementById("username").value,
-                    reqRadar : document.getElementById("reqRadar").value,
-                    reqDateYYYY : document.getElementById("reqDateYYYY").value,
-                    reqDateMM : document.getElementById("reqDateMM").value,
-                    reqDateDD : document.getElementById("reqDateDD").value,
-                    reqStartTimeHH : document.getElementById("reqStartTimeHH").value,
-                    reqStartTimeMM : document.getElementById("reqStartTimeMM").value,
-                    reqStartTimeSS : document.getElementById("reqStartTimeSS").value,
-                    reqEndTimeHH : document.getElementById("reqEndTimeHH").value,
-                    reqEndTimeMM : document.getElementById("reqEndTimeMM").value,
-                    reqEndTimeSS : document.getElementById("reqEndTimeSS").value
-                }
-                console.log(nr_data);
-                var formData = JSON.stringify(nr_data);
-                console.log(formData)
-
-                // axios.post('http://localhost:8080/localhost:3000/users', formData)
-
-                const sendHttpRequest = (method, url, data) => {
-                  return fetch(url, {
-                    method: method,
-                    body: JSON.stringify(data),
-                    headers: data ? { 'Content-Type': 'application/json' } : {}
-                  }).then(response => {
-                    if (response.status >= 400) {
-                      // !response.ok
-                      return response.json().then(errResData => {
-                        const error = new Error('Something went wrong!');
-                        error.data = errResData;
-                        throw error;
-                      });
-                    }
-                    return response.json();
-                  });
-                };
-
-                    sendHttpRequest('POST', 'localhost:3000/users', {
-                        'username' : '123',
-                        'reqRadar' : '123',
-                        'reqDateYYYY' : '123',
-                        'reqDateMM' : '123',
-                        'reqDateDD' : '123',
-                        'reqStartTimeHH' : '123',
-                        'reqStartTimeMM' : '123',
-                        'reqStartTimeSS' : '123',
-                        'reqEndTimeHH' : '123',
-                        'reqEndTimeMM' : '123',
-                        'reqEndTimeSS' : '123'
-                    })
-                    .then(responseData => {console.log(responseData);})
-                    .catch(err => {console.log(err, err.data);});
-
-                //  method="POST" action="http://localhost:3000/users" enctype='text/plain'
-            }
-        </script>
-    </head>
-
-    <body style="font-family:Verdana;">
-
-    <div style="background-color:#e5e5e5;padding:15px;text-align:center;">
-    <h1>WEATHER DASHBOARD</h1>
-    </div>
-
-    <div style="overflow:auto">
-    <div class="menu">
-        <h2><u>USER SETTINGS</u></h2>
-            <p>SOME OPTION</p>
-            <p>SOME OPTION</p>
-            <p>SOME OPTION</p>
-            <p>SOME OPTION</p>
-            <p>SOME OPTION</p>
-            <br><hr><br>
-        <h2><u>WEATHER SETTINGS</u></h2>
-            <p>SOME OPTION</p>
-            <p>SOME OPTION</p>
-            <p>SOME OPTION</p>
-            <p>SOME OPTION</p>
-            <p>SOME OPTION</p>
-    </div>
-
-    <div class="main">
-        <h1><strong>NEXRAD Inventory</strong></h1><hr>
-                <table style="text-align: left;"><tr><th>
-                <form name="myForm" method="POST" action="http://localhost:3000/users" enctype='text/plain'>
-                <p>
+    return (
+        <div>
+            <form onSubmit={(e)=> submit(e)}>
+                <input onChange={(e) => handle(e)} id="username" value={data.username} placeholder='username' type="text"></input>
+                <input onChange={(e) => handle(e)} id="reqRadar" value={data.reqRadar} placeholder='reqRadar' type="text"></input>
+                <input onChange={(e) => handle(e)} id="reqDateYYYY" value={data.reqDateYYYY} placeholder='reqDateYYYY' type="text"></input>
+                <input onChange={(e) => handle(e)} id="reqDateMM" value={data.reqDateMM} placeholder='reqDateMM' type="text"></input>
+                <input onChange={(e) => handle(e)} id="reqDateDD" value={data.reqDateDD} placeholder='reqDateDD' type="text"></input>
+                <input onChange={(e) => handle(e)} id="reqStartTimeHH" value={data.reqStartTimeHH} placeholder='reqStartTimeHH' type="text"></input>
+                <input onChange={(e) => handle(e)} id="reqStartTimeMM" value={data.reqStartTimeMM} placeholder='reqStartTimeMM' type="text"></input>
+                <input onChange={(e) => handle(e)} id="reqStartTimeSS" value={data.reqStartTimeSS} placeholder='reqStartTimeSS' type="text"></input>
+                <input onChange={(e) => handle(e)} id="reqEndTimeHH" value={data.reqEndTimeHH} placeholder='reqEndTimeHH' type="text"></input>
+                <input onChange={(e) => handle(e)} id="reqEndTimeMM" value={data.reqEndTimeMM} placeholder='reqEndTimeMM' type="text"></input>
+                <input onChange={(e) => handle(e)} id="reqEndTimeSS" value={data.reqEndTimeSS} placeholder='reqEndTimeSS' type="text"></input>
+                <button>SUBMIT</button>
+            </form>
+            {/* <form>
                     <h2>Select Radars by State</h2>
-                    <input type="text"  style="margin-left: 50px; height: 40px; width: 200px;"  id="username" name="username" value="don" required><br><br>
-                    <select  type="text" style="margin-left: 50px; height: 40px; width: 200px;" id="reqRadar" name="reqRadar" required>
+                    <input type="text"  style="margin-left: 50px; height: 40px; width: 200px;"  id="username" placeholder="username" name="username" value="don" required />
+                    <select  type="text" style="margin-left: 50px; height: 40px; width: 200px;" id="reqRadar" placeholder="reqRadar" name="reqRadar" required>
                         <option value="">Radars by State</option>
                         <option value=""></option>
                             <option value="">--Alabama</option>
@@ -445,11 +353,9 @@
                         <option value="rksg">Camp Humphreys</option>
                         <option value=""></option>
                     </select>
-                    
-                    <br><br>
 
                     <h2>Select Date</h2>
-                    <select type="text" style="margin-left: 10%; height: 40px; width: 65px;" id="reqDateMM" name="reqDateMM" required> 
+                    <select type="text" style="margin-left: 10%; height: 40px; width: 65px;" placeholder="reqDateMM" id="reqDateMM" name="reqDateMM" required> 
                         <option hidden> MM </option> 
                             <option value="01" > 01 </option> 
                             <option value="02" > 02 </option> 
@@ -465,7 +371,7 @@
                             <option value="12" > 12 </option> 
                     </select> 
 
-                    <select type="text" style="margin-left: 10px; height: 40px; width: 65px;" id="reqDateDD" name="reqDateDD" required> 
+                    <select type="text" style="margin-left: 10px; height: 40px; width: 65px;" placeholder="reqDateDD" id="reqDateDD" name="reqDateDD" required> 
                         <option hidden> DD </option> 
                             <option value="01" > 01 </option> 
                             <option value="02" > 02 </option> 
@@ -500,7 +406,7 @@
                             <option value="31" > 31 </option> 
                     </select> 
 
-                    <select type="text" style="margin-left: 10px; height: 40px; width: 95px;" id="reqDateYYYY" name="reqDateYYYY" required> 
+                    <select type="text" style="margin-left: 10px; height: 40px; width: 95px;" id="reqDateYYYY" placeholder="reqDateYYYY" name="reqDateYYYY" required> 
                         <option hidden> YYYY </option> 
                             <option value="1993" > 1993 </option> 
                             <option value="1994" > 1994 </option> 
@@ -533,11 +439,9 @@
                             <option value="2021" > 2021 </option> 
                             <option value="2022" > 2022 </option> 
                     </select>
-                    
-                    <br><br>
 
                     <h2>Select Start Time</h2>
-                    <select type="text" style="margin-left: 50px; height: 40px; width: 65px;" id="reqStartTimeHH" name="reqStartTimeHH" required> 
+                    <select type="text" style="margin-left: 50px; height: 40px; width: 65px;" placeholder="reqStartTimeHH" id="reqStartTimeHH" name="reqStartTimeHH" required> 
                         <option hidden> HH </option> 
                             <option value="00" > 00 </option> 
                             <option value="01" > 01 </option> 
@@ -565,7 +469,7 @@
                             <option value="23" > 23 </option> 
                     </select>
                     
-                    <select type="text" style="margin-left: 10px; height: 40px; width: 65px;" id="reqStartTimeMM" name="reqStartTimeMM" required> 
+                    <select type="text" style="margin-left: 10px; height: 40px; width: 65px;" id="reqStartTimeMM" placeholder="reqStartTimeMM" name="reqStartTimeMM" required> 
                         <option hidden> MM </option> 
                             <option value="00">00</option>
                             <option value="01">01</option>
@@ -629,7 +533,7 @@
                             <option value="59">59</option> 
                     </select>
 
-                    <select type="text" style="margin-left: 10px; height: 40px; width: 65px;" id="reqStartTimeSS" name="reqStartTimeSS" required> 
+                    <select type="text" style="margin-left: 10px; height: 40px; width: 65px;" id="reqStartTimeSS" placeholder="reqStartTimeSS" name="reqStartTimeSS" required> 
                         <option hidden> SS </option> 
                         <option value="00">00</option>
                         <option value="01">01</option>
@@ -692,11 +596,9 @@
                         <option value="58">58</option>
                         <option value="59">59</option>
                     </select>
-
-                    <br><br>
 
                     <h2>Select End Time</h2>
-                    <select type="text" style="margin-left: 50px; height: 40px; width: 65px;" id="reqEndTimeHH" name="reqEndTimeHH" required> 
+                    <select type="text" style="margin-left: 50px; height: 40px; width: 65px;" id="reqEndTimeHH" placeholder="reqEndTimeHH" name="reqEndTimeHH" required> 
                         <option hidden> HH </option> 
                             <option value="00" > 00 </option> 
                             <option value="01" > 01 </option> 
@@ -724,7 +626,7 @@
                             <option value="23" > 23 </option> 
                     </select>
                     
-                    <select type="text" style="margin-left: 10px; height: 40px; width: 65px;" id="reqEndTimeMM" name="reqEndTimeMM" required> 
+                    <select type="text" style="margin-left: 10px; height: 40px; width: 65px;" id="reqEndTimeMM" placeholder="reqEndTimeMM" name="reqEndTimeMM" required> 
                         <option hidden> MM </option> 
                             <option value="00">00</option>
                             <option value="01">01</option>
@@ -788,7 +690,7 @@
                             <option value="59">59</option> 
                     </select>
 
-                    <select type="text" style="margin-left: 10px; height: 40px; width: 65px;" id="reqEndTimeSS" name="reqEndTimeSS" required> 
+                    <select type="text" style="margin-left: 10px; height: 40px; width: 65px;" placeholder="reqEndTimeSS" id="reqEndTimeSS" name="reqEndTimeSS" required> 
                         <option hidden> SS </option> 
                         <option value="00">00</option>
                         <option value="01">01</option>
@@ -852,39 +754,10 @@
                         <option value="59">59</option>
                     </select>
 
-                    <br><br><br><br><br>
+                    <input placeholder="submit" name="submit" id="submit" style="margin-left: 35%; height: 40px; width: 200px; background-color: chocolate; color: white;" type="submit" value="CREATE GRAPH" />
+            </form> */}
+        </div>
+    );
+}
 
-                    <input name="submit" id="submit" style="margin-left: 35%; height: 40px; width: 200px; background-color: chocolate; color: white;" type="submit" value="CREATE GRAPH">
-                    <br><br>
-                    
-                </p>
-                </form>
-            </th>
-            <th>
-                <div class="vl">
-                    <h2 style="margin-left: 20%; margin-top: 12%; width: 250%;">Requested Output Graph</h2>
-                    <img src="output_01.png" id="op-image" style="margin-left: 25%; height: 85%; ">
-                </div>
-            </th>
-            </tr>
-            </table>  
-    </div>
-
-    <div class="right" style="background-color: white;">
-            <button style="height: 40px; width: 75px;" href="">MENU</button>&nbsp
-            <button style="height: 40px; width: 75px;" href="">SETTINGS</button>&nbsp
-            <button style="height: 40px; width: 75px;" href="">LOGOUT</button>
-        </select>
-    </div>
-    <div class="right">
-        <h2>USER HISTORY</h2>
-        <p>something</p>
-        <p>something</p>
-    </div>
-    </div>
-
-    <div style="background-color:#e5e5e5;text-align:center;padding:10px;margin-top:7px;">ampersand</div>
-
-    </body>
-</html>
-
+export default PostForm

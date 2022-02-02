@@ -2,7 +2,7 @@ GET http://localhost:3000/users
 
 ###
 
-GET http://localhost:3000/users/61f61d9c98626d9962537788
+GET http://localhost:3000/users/61f624d24cd8c31c6faad539
 
 ###
 
@@ -10,11 +10,11 @@ POST http://localhost:3000/users
 Content-Type: application/json
 
 {
-    "username": "nkamble",
-    "reqRadar": "KILX",
-    "reqDateYYYY": "2021",
-    "reqDateMM": "11",
-    "reqDateDD": "05",
+    "username": "apednekar",
+    "reqRadar": "KJFK",
+    "reqDateYYYY": "2019",
+    "reqDateMM": "03",
+    "reqDateDD": "01",
     "reqStartTimeHH": "10",
     "reqStartTimeMM": "40",
     "reqStartTimeSS": "09",
@@ -25,4 +25,4 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:3000/users/61f61d9c98626d9962537788
+DELETE http://localhost:3000/users/61f9036bea114f86479b2d72
