@@ -2,7 +2,10 @@ import React, { useState } from 'react'
 import Axios from 'axios'
 
 function PostForm(){
-    const url = "http://192.168.1.116:3000/users"
+    const url = "http://localhost:3001/users"
+    const py_url = "http://localhost:3005/fileurl/"
+    const nexrad_aws_url = ""
+
     const [data, setData] = useState({
         username: "",
         reqRadar: "",
@@ -35,6 +38,19 @@ function PostForm(){
         .then(res =>{
             console.log(res.data)
         })
+        
+        const radar = (data.reqRadar).toUpperCase()
+
+        const rem_url = data.reqDateYYYY + '/' + data.reqDateMM + '/' + data.reqDateDD + '/' + radar + '/' + data.reqStartTimeHH + data.reqStartTimeMM
+        console.log(py_url + rem_url)
+
+        Axios.get(py_url+rem_url, {
+        })
+        .then(res => {
+            console.log(res.data)
+            nexrad_aws_url = res.data
+        })
+
     }
 
     function handle(e){
@@ -46,24 +62,14 @@ function PostForm(){
 
     return (
         <div>
+            <hr></hr>
+            <h1>WEATHER DASHBOARD</h1>
+            <hr></hr>
+            <br></br><br></br>
             <form onSubmit={(e)=> submit(e)}>
-                <input onChange={(e) => handle(e)} id="username" value={data.username} placeholder='username' type="text"></input>
-                <input onChange={(e) => handle(e)} id="reqRadar" value={data.reqRadar} placeholder='reqRadar' type="text"></input>
-                <input onChange={(e) => handle(e)} id="reqDateYYYY" value={data.reqDateYYYY} placeholder='reqDateYYYY' type="text"></input>
-                <input onChange={(e) => handle(e)} id="reqDateMM" value={data.reqDateMM} placeholder='reqDateMM' type="text"></input>
-                <input onChange={(e) => handle(e)} id="reqDateDD" value={data.reqDateDD} placeholder='reqDateDD' type="text"></input>
-                <input onChange={(e) => handle(e)} id="reqStartTimeHH" value={data.reqStartTimeHH} placeholder='reqStartTimeHH' type="text"></input>
-                <input onChange={(e) => handle(e)} id="reqStartTimeMM" value={data.reqStartTimeMM} placeholder='reqStartTimeMM' type="text"></input>
-                <input onChange={(e) => handle(e)} id="reqStartTimeSS" value={data.reqStartTimeSS} placeholder='reqStartTimeSS' type="text"></input>
-                <input onChange={(e) => handle(e)} id="reqEndTimeHH" value={data.reqEndTimeHH} placeholder='reqEndTimeHH' type="text"></input>
-                <input onChange={(e) => handle(e)} id="reqEndTimeMM" value={data.reqEndTimeMM} placeholder='reqEndTimeMM' type="text"></input>
-                <input onChange={(e) => handle(e)} id="reqEndTimeSS" value={data.reqEndTimeSS} placeholder='reqEndTimeSS' type="text"></input>
-                <button>SUBMIT</button>
-            </form>
-            {/* <form>
+                    <input style={{ height: "40px" , width: "200px" }} onChange={(e) => handle(e)} id="username" value={data.username} type="text" id="username" placeholder="username" name="username" required />
                     <h2>Select Radars by State</h2>
-                    <input type="text"  style="margin-left: 50px; height: 40px; width: 200px;"  id="username" placeholder="username" name="username" value="don" required />
-                    <select  type="text" style="margin-left: 50px; height: 40px; width: 200px;" id="reqRadar" placeholder="reqRadar" name="reqRadar" required>
+                    <select style={{ height: "40px" , width: "200px" }} onChange={(e) => handle(e)} id="reqRadar" value={data.reqRadar}  type="text" id="reqRadar" placeholder="reqRadar" name="reqRadar" required>
                         <option value="">Radars by State</option>
                         <option value=""></option>
                             <option value="">--Alabama</option>
@@ -355,7 +361,7 @@ function PostForm(){
                     </select>
 
                     <h2>Select Date</h2>
-                    <select type="text" style="margin-left: 10%; height: 40px; width: 65px;" placeholder="reqDateMM" id="reqDateMM" name="reqDateMM" required> 
+                    <select style={{ height: "40px" , width: "50px" }} onChange={(e) => handle(e)} id="reqDateMM" value={data.reqDateMM} type="text" placeholder="reqDateMM" id="reqDateMM" name="reqDateMM" required> 
                         <option hidden> MM </option> 
                             <option value="01" > 01 </option> 
                             <option value="02" > 02 </option> 
@@ -369,9 +375,9 @@ function PostForm(){
                             <option value="10" > 10 </option> 
                             <option value="11" > 11 </option> 
                             <option value="12" > 12 </option> 
-                    </select> 
+                    </select> &nbsp;&nbsp;&nbsp;
 
-                    <select type="text" style="margin-left: 10px; height: 40px; width: 65px;" placeholder="reqDateDD" id="reqDateDD" name="reqDateDD" required> 
+                    <select style={{ height: "40px" , width: "50px" }} onChange={(e) => handle(e)} id="reqDateDD" value={data.reqDateDD} type="text" placeholder="reqDateDD" id="reqDateDD" name="reqDateDD" required> 
                         <option hidden> DD </option> 
                             <option value="01" > 01 </option> 
                             <option value="02" > 02 </option> 
@@ -404,9 +410,9 @@ function PostForm(){
                             <option value="29" > 29 </option> 
                             <option value="30" > 30 </option> 
                             <option value="31" > 31 </option> 
-                    </select> 
+                    </select> &nbsp;&nbsp;&nbsp;
 
-                    <select type="text" style="margin-left: 10px; height: 40px; width: 95px;" id="reqDateYYYY" placeholder="reqDateYYYY" name="reqDateYYYY" required> 
+                    <select style={{ height: "40px" , width: "50px" }} onChange={(e) => handle(e)} id="reqDateYYYY" value={data.reqDateYYYY} type="text" id="reqDateYYYY" placeholder="reqDateYYYY" name="reqDateYYYY" required> 
                         <option hidden> YYYY </option> 
                             <option value="1993" > 1993 </option> 
                             <option value="1994" > 1994 </option> 
@@ -441,7 +447,7 @@ function PostForm(){
                     </select>
 
                     <h2>Select Start Time</h2>
-                    <select type="text" style="margin-left: 50px; height: 40px; width: 65px;" placeholder="reqStartTimeHH" id="reqStartTimeHH" name="reqStartTimeHH" required> 
+                    <select style={{ height: "40px" , width: "50px" }} onChange={(e) => handle(e)} id="reqStartTimeHH" value={data.reqStartTimeHH} type="text" placeholder="reqStartTimeHH" id="reqStartTimeHH" name="reqStartTimeHH" required> 
                         <option hidden> HH </option> 
                             <option value="00" > 00 </option> 
                             <option value="01" > 01 </option> 
@@ -467,9 +473,9 @@ function PostForm(){
                             <option value="21" > 21 </option> 
                             <option value="22" > 22 </option> 
                             <option value="23" > 23 </option> 
-                    </select>
+                    </select>&nbsp;&nbsp;&nbsp;
                     
-                    <select type="text" style="margin-left: 10px; height: 40px; width: 65px;" id="reqStartTimeMM" placeholder="reqStartTimeMM" name="reqStartTimeMM" required> 
+                    <select style={{ height: "40px" , width: "50px" }} onChange={(e) => handle(e)} id="reqStartTimeMM" value={data.reqStartTimeMM} type="text" id="reqStartTimeMM" placeholder="reqStartTimeMM" name="reqStartTimeMM" required> 
                         <option hidden> MM </option> 
                             <option value="00">00</option>
                             <option value="01">01</option>
@@ -531,9 +537,9 @@ function PostForm(){
                             <option value="57">57</option>
                             <option value="58">58</option>
                             <option value="59">59</option> 
-                    </select>
+                    </select>&nbsp;&nbsp;&nbsp;
 
-                    <select type="text" style="margin-left: 10px; height: 40px; width: 65px;" id="reqStartTimeSS" placeholder="reqStartTimeSS" name="reqStartTimeSS" required> 
+                    <select style={{ height: "40px" , width: "50px" }} onChange={(e) => handle(e)} id="reqStartTimeSS" value={data.reqStartTimeSS} type="text" id="reqStartTimeSS" placeholder="reqStartTimeSS" name="reqStartTimeSS" required> 
                         <option hidden> SS </option> 
                         <option value="00">00</option>
                         <option value="01">01</option>
@@ -598,7 +604,7 @@ function PostForm(){
                     </select>
 
                     <h2>Select End Time</h2>
-                    <select type="text" style="margin-left: 50px; height: 40px; width: 65px;" id="reqEndTimeHH" placeholder="reqEndTimeHH" name="reqEndTimeHH" required> 
+                    <select style={{ height: "40px" , width: "50px" }} onChange={(e) => handle(e)} id="reqEndTimeHH" value={data.reqEndTimeHH}  type="text" id="reqEndTimeHH" placeholder="reqEndTimeHH" name="reqEndTimeHH" required> 
                         <option hidden> HH </option> 
                             <option value="00" > 00 </option> 
                             <option value="01" > 01 </option> 
@@ -624,9 +630,9 @@ function PostForm(){
                             <option value="21" > 21 </option> 
                             <option value="22" > 22 </option> 
                             <option value="23" > 23 </option> 
-                    </select>
+                    </select>&nbsp;&nbsp;&nbsp;
                     
-                    <select type="text" style="margin-left: 10px; height: 40px; width: 65px;" id="reqEndTimeMM" placeholder="reqEndTimeMM" name="reqEndTimeMM" required> 
+                    <select style={{ height: "40px" , width: "50px" }} onChange={(e) => handle(e)} id="reqEndTimeMM" value={data.reqEndTimeMM}  type="text" id="reqEndTimeMM" placeholder="reqEndTimeMM" name="reqEndTimeMM" required> 
                         <option hidden> MM </option> 
                             <option value="00">00</option>
                             <option value="01">01</option>
@@ -688,9 +694,9 @@ function PostForm(){
                             <option value="57">57</option>
                             <option value="58">58</option>
                             <option value="59">59</option> 
-                    </select>
+                    </select>&nbsp;&nbsp;&nbsp;
 
-                    <select type="text" style="margin-left: 10px; height: 40px; width: 65px;" placeholder="reqEndTimeSS" id="reqEndTimeSS" name="reqEndTimeSS" required> 
+                    <select style={{ height: "40px" , width: "50px" }} onChange={(e) => handle(e)} id="reqEndTimeSS" value={data.reqEndTimeSS}  type="text" placeholder="reqEndTimeSS" id="reqEndTimeSS" name="reqEndTimeSS" required> 
                         <option hidden> SS </option> 
                         <option value="00">00</option>
                         <option value="01">01</option>
@@ -753,9 +759,9 @@ function PostForm(){
                         <option value="58">58</option>
                         <option value="59">59</option>
                     </select>
-
-                    <input placeholder="submit" name="submit" id="submit" style="margin-left: 35%; height: 40px; width: 200px; background-color: chocolate; color: white;" type="submit" value="CREATE GRAPH" />
-            </form> */}
+                    <br></br><br></br>
+                    <input style={{ height: "40px" , width: "500px" }} placeholder="submit" name="submit" id="submit" type="submit" value="CREATE GRAPH" />
+            </form>
         </div>
     );
 }
