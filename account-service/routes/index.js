@@ -19,7 +19,7 @@ router.get('/auth/google/callback',
      expiresIn: 60 * 60,
    });
    res.cookie('auth', token, { httpOnly: true });
-   res.redirect('http://localhost:3000/Dashboard');
+   res.redirect('http://localhost:3000/dashboard');
 });
 
 module.exports = router;

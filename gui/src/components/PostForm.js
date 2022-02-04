@@ -1,13 +1,23 @@
 import React, { useState } from 'react'
 import Axios from 'axios'
+import { useEffect } from 'react';
+import axios from 'axios';
 
 function PostForm(){
     const url = "http://localhost:3001/users"
     const py_url = "http://localhost:3005/fileurl/"
     const nexrad_aws_url = ""
 
+    const [name, setName] = useState('');
+    useEffect(async () => {
+      const result = await axios.get('http://localhost:5001/greetme', {
+        withCredentials: true
+      });
+      setName(result.data.fullName);
+    });
+
     const [data, setData] = useState({
-        username: "",
+        username: name,
         reqRadar: "",
         reqDateYYYY: "", 
         reqDateMM: "",
@@ -23,7 +33,7 @@ function PostForm(){
     function submit(e){
         e.preventDefault();
         Axios.post(url, {
-            username: data.username,
+            username: name,
             reqRadar: data.reqRadar,
             reqDateYYYY: data.reqDateYYYY, 
             reqDateMM: data.reqDateMM,
@@ -64,10 +74,12 @@ function PostForm(){
         <div>
             <hr></hr>
             <h1>WEATHER DASHBOARD</h1>
+            <h2>Welcome <b onChange={(e) => handle(e)} id="username" value={name}>{name}</b></h2>
+            {/* <h2>Welcome {name} !</h2> */}
             <hr></hr>
             <br></br><br></br>
             <form onSubmit={(e)=> submit(e)}>
-                    <input style={{ height: "40px" , width: "200px" }} onChange={(e) => handle(e)} id="username" value={data.username} type="text" id="username" placeholder="username" name="username" required />
+                    {/* <input style={{ height: "40px" , width: "200px" }} onChange={(e) => handle(e)} id="username" value={data.username} type="text" id="username" placeholder="username" name="username" required /> */}
                     <h2>Select Radars by State</h2>
                     <select style={{ height: "40px" , width: "200px" }} onChange={(e) => handle(e)} id="reqRadar" value={data.reqRadar}  type="text" id="reqRadar" placeholder="reqRadar" name="reqRadar" required>
                         <option value="">Radars by State</option>

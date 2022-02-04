@@ -3,6 +3,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
+const session = require('express-session')
 
 const indexRouter = require('./routes/index');
 
@@ -11,10 +12,18 @@ app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 
 
 app.use(logger('dev'));
-app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(
+  session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false,
+  })
+)
 
 const passport = require('passport');
 const JwtStrategy = require('passport-jwt').Strategy,
