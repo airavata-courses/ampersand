@@ -3,11 +3,14 @@
 from tokenize import String
 from fastapi import FastAPI
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 
 import matplotlib.pyplot as plt
 import pyart
 import gzip
 import requests
+import cloudinary
+import cloudinary.uploader
 
 def plot_radar():
     # extract gzip file and open the file, create the displays and figure
@@ -28,15 +31,34 @@ def plot_radar():
 class userURL(BaseModel):
     user_id : str
     url : str
+    file_name : str
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.post("/plot")
 async def plot(fileURL : userURL):
     data_file = requests.get(fileURL.url)
-    # print(data_file.status_code)
     # print(data_file.headers)
     with open("test.gz", "wb") as f: 
         f.write(data_file.content)
     plot_radar()
-    return {"message": "data plotted for the url."}
+    plot_url = upload_plot(fileURL.file_name)
+    return {"cloud_plot_url": plot_url["secure_url"]}
+
+def upload_plot(file_name):
+    cloudinary.config( 
+    cloud_name = "airavata-ampersand", 
+    api_key = "125437764849963", 
+    api_secret = "qA2t96zRI1JuU8RoO1Eqe0iDySI")
+
+    plot_url = cloudinary.uploader.upload("test.png",public_id = file_name)
+
+    return plot_url

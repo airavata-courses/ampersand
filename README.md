@@ -8,4 +8,4 @@ Team -
 
 Data Plotting (Create docker image and add it to container)
 docker build -t data-plotting-image .
-docker run -d --name adscontainer -p 80:80 data-plotting-image
+docker run -d --name adscontainer -p 82:82 data-plotting-image
