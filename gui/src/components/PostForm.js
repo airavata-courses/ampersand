@@ -5,7 +5,8 @@ import axios from 'axios';
 
 function PostForm(){
     const url = "http://localhost:3001/users"
-    const py_url = "http://localhost:3005/fileurl/"
+    const py_url = "http://localhost:81/fileurl/"
+    const pl_url = "http://localhost:82/plot/"
     const nexrad_aws_url = ""
 
     const [name, setName] = useState('');
@@ -61,6 +62,13 @@ function PostForm(){
             nexrad_aws_url = res.data
         })
 
+        Axios.post(pl_url, {
+            user_id : name, 
+            url : nexrad_aws_url
+        })
+        .then(res =>{
+            console.log(res.data)
+        })
     }
 
     function handle(e){
