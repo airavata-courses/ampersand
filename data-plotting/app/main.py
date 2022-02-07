@@ -12,10 +12,13 @@ import requests
 import cloudinary
 import cloudinary.uploader
 
-def plot_radar():
+def plot_radar(isGZ):
     # extract gzip file and open the file, create the displays and figure
-    filename = gzip.open("test.gz")
-    radar = pyart.io.read_nexrad_archive(filename)
+    if isGZ:
+        filename = gzip.open("test.gz")
+        radar = pyart.io.read_nexrad_archive(filename)
+    else:
+        radar = pyart.io.read_nexrad_archive("test.gz")
     display = pyart.graph.RadarDisplay(radar)
     fig = plt.figure(figsize=(6, 5))
 
@@ -45,11 +48,15 @@ app.add_middleware(
 
 @app.post("/plot")
 async def plot(fileURL : userURL):
+    isGZ = False
     data_file = requests.get(fileURL.url)
     # print(data_file.headers)
     with open("test.gz", "wb") as f: 
         f.write(data_file.content)
-    plot_radar()
+    if fileURL.file_name[-3:] == '.gz':
+        # print(fileURL.file_name[-3:])
+        isGZ = True
+    plot_radar(isGZ)
     plot_url = upload_plot(fileURL.file_name)
     return {"cloud_plot_url": plot_url["secure_url"]}
 
