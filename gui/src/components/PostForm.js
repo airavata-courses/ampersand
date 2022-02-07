@@ -4,17 +4,26 @@ import { useEffect } from 'react';
 import axios from 'axios';
 
 function PostForm(){
-    const url = "http://localhost:3001/users"
-    const py_url = "http://localhost:81/fileurl/"
-    const pl_url = "http://localhost:82/plot/"
-    const nexrad_aws_url = ""
+    document.title = "Dashboard";
+    var url = "http://localhost:3001/users"
+    
+    // for data ingestor and data plotting requests
+    var py_url = "http://localhost:81/fileurl/"
+    var pl_url = "http://localhost:82/plot/"
+    var nexrad_aws_url = ""
+    var aws_f_name = ""
+    var cloud_image_url = ""
+    var ses_id = ""
+    var patch_url = ""
 
     const [name, setName] = useState('');
+    
     useEffect(async () => {
       const result = await axios.get('http://localhost:5001/greetme', {
         withCredentials: true
       });
-      setName(result.data.fullName);
+      const aname = (result.data.fullName).replace(" ", "")
+      setName(aname);
     });
 
     const [data, setData] = useState({
@@ -32,6 +41,7 @@ function PostForm(){
     })
 
     function submit(e){
+        alert("Your Request is in Process")
         e.preventDefault();
         Axios.post(url, {
             username: name,
@@ -48,8 +58,14 @@ function PostForm(){
         })
         .then(res =>{
             console.log(res.data)
+            console.log(res.data._id)
+            // console.log("sometime it is possible")
+            ses_id = res.data._id
+            patch_url = url+'/'+ses_id
+            console.log(patch_url)
         })
-        
+
+        // for data ingestor request
         const radar = (data.reqRadar).toUpperCase()
 
         const rem_url = data.reqDateYYYY + '/' + data.reqDateMM + '/' + data.reqDateDD + '/' + radar + '/' + data.reqStartTimeHH + data.reqStartTimeMM
@@ -58,17 +74,38 @@ function PostForm(){
         Axios.get(py_url+rem_url, {
         })
         .then(res => {
-            console.log(res.data)
-            nexrad_aws_url = res.data
-        })
+            console.log(res.data.url, res.data.file_name)
+            nexrad_aws_url = res.data.url
+            aws_f_name = res.data.file_name
+            console.log("updated url's",nexrad_aws_url, aws_f_name)
 
-        Axios.post(pl_url, {
-            user_id : name, 
-            url : nexrad_aws_url
+            // for data plotting request
+            axios.post(pl_url, {
+                user_id: ses_id, 
+                url: nexrad_aws_url,
+                file_name: aws_f_name
+            })
+            .then(res =>{
+                console.log(res.data.cloud_plot_url)
+                cloud_image_url = res.data.cloud_plot_url
+                
+                console.log("success is a journey")
+                document.getElementById("graph_image").src = cloud_image_url
+                console.log(patch_url, ses_id, nexrad_aws_url, aws_f_name, cloud_image_url)
+
+                // updating the database
+                axios.patch(patch_url, {
+                    id: ses_id, 
+                    aws_url: nexrad_aws_url,
+                    aws_fname: aws_f_name,
+                    cloud_url: cloud_image_url
+                })
+                .then(res =>{
+                    console.log(res.data)  
+                })
+            })
         })
-        .then(res =>{
-            console.log(res.data)
-        })
+        
     }
 
     function handle(e){
@@ -78,15 +115,25 @@ function PostForm(){
         console.log(newdata)
     }
 
+    function request(){
+        window.open( "/user/request" + "/?name=" + name);
+    }
+
     return (
         <div>
             <hr></hr>
             <h1>WEATHER DASHBOARD</h1>
             <h2>Welcome <b onChange={(e) => handle(e)} id="username" value={name}>{name}</b></h2>
-            {/* <h2>Welcome {name} !</h2> */}
             <hr></hr>
-            <br></br><br></br>
-            <form onSubmit={(e)=> submit(e)}>
+            
+            <button style={{ height: "40px" , width: "200px", position:"absolute", right:"0", marginRight:"300px"}} onClick={request}>USER HISTORY</button>
+            <a href='http://localhost:3000'><button style={{ height: "40px" , width: "200px", position:"absolute", right:"0", marginRight:"20px"}}>LOGOUT</button></a>
+            
+            <br/><br/><br/><br/>
+
+            <img id="graph_image" src="" style={{height: "500px" , width: "600px", position:"absolute", left:"0", marginLeft:"700px"}}/>
+            
+            <form onSubmit={(e)=> submit(e)} style={{position:"absolute", left:"0", marginLeft:"100px"}}>
                     {/* <input style={{ height: "40px" , width: "200px" }} onChange={(e) => handle(e)} id="username" value={data.username} type="text" id="username" placeholder="username" name="username" required /> */}
                     <h2>Select Radars by State</h2>
                     <select style={{ height: "40px" , width: "200px" }} onChange={(e) => handle(e)} id="reqRadar" value={data.reqRadar}  type="text" id="reqRadar" placeholder="reqRadar" name="reqRadar" required>
@@ -432,7 +479,7 @@ function PostForm(){
                             <option value="31" > 31 </option> 
                     </select> &nbsp;&nbsp;&nbsp;
 
-                    <select style={{ height: "40px" , width: "50px" }} onChange={(e) => handle(e)} id="reqDateYYYY" value={data.reqDateYYYY} type="text" id="reqDateYYYY" placeholder="reqDateYYYY" name="reqDateYYYY" required> 
+                    <select style={{ height: "40px" , width: "70px" }} onChange={(e) => handle(e)} id="reqDateYYYY" value={data.reqDateYYYY} type="text" id="reqDateYYYY" placeholder="reqDateYYYY" name="reqDateYYYY" required> 
                         <option hidden> YYYY </option> 
                             <option value="1993" > 1993 </option> 
                             <option value="1994" > 1994 </option> 
@@ -780,7 +827,7 @@ function PostForm(){
                         <option value="59">59</option>
                     </select>
                     <br></br><br></br>
-                    <input style={{ height: "40px" , width: "500px" }} placeholder="submit" name="submit" id="submit" type="submit" value="CREATE GRAPH" />
+                    <input style={{ height: "40px" , width: "350px" }} placeholder="submit" name="submit" id="submit" type="submit" value="CREATE GRAPH" />
             </form>
         </div>
     );

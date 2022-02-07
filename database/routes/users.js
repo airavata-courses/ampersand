@@ -2,6 +2,9 @@ const express = require('express')
 const router = express.Router()
 const User = require('../models/users')
 
+const mongoose = require('mongoose')
+mongoose.connect(process.env.DATABASE_URL)
+
 // getting all users
 router.get('/', async (req, res) => {
     try{
@@ -18,11 +21,17 @@ router.get('/:id', getUser, (req, res) => {
 })
 
 // getting data using username
-// router.get('/:id', getUser, (req, res) => {
-//     res.json(res.username)
-// })
+router.post('/name', async (req, res) => {
+    try{
+        const docs = await User.find({ username:  req.body.username});
+        res.json(docs)
+    }
+    catch(e){
+        console.log(e.message)
+    }
+})
 
-// creating one user
+// storing one user data
 router.post('/', async (req, res) => {
     const users = new User({
         username: req.body.username,
@@ -50,8 +59,19 @@ router.post('/', async (req, res) => {
 })
 
 // updating one user
-router.patch('/:id', getUser, (req, res) => {
-    
+router.patch('/:id', async (req, res) => {
+    try{
+        await User.findByIdAndUpdate(req.body.id, { 
+            aws_url:  req.body.aws_url,
+            aws_fname:  req.body.aws_fname,
+            cloud_url:  req.body.cloud_url
+        });
+        res.status(201).json({message: "Database Modified"})
+        console.log("modified")
+    }
+    catch(e){
+        console.log(e.message)
+    }
 })
 
 // deleting one user
@@ -74,7 +94,6 @@ async function getUser(req, res, next){
     }catch (err){
         return res.status(500).json({message: err.message})
     }
-
     res.user = user
     next()
 }

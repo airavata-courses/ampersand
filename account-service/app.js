@@ -1,8 +1,8 @@
 const express = require('express');
 const path = require('path');
+const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const cors = require('cors');
 const passport = require('passport');
 const session = require('express-session')
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
@@ -10,8 +10,6 @@ const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const indexRouter = require('./routes/index');
 
 const app = express();
-// This is here for client side to be able to talk to server side. you may want to be less permissive in production and define specific domains.
-app.use(cors());
 
 app.use(logger('dev'));
 
@@ -30,6 +28,7 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(cors());
 
 app.use('/', indexRouter);
 

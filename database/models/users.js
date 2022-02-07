@@ -55,7 +55,18 @@ const usersSchema = new mongoose.Schema({
     reqEndTimeSS:{
         type: String,
         required: true
+    },
+
+    aws_url:{
+        type: String
+    },
+    aws_fname:{
+        type: String
+    },
+    cloud_url:{
+        type: String
     }
+    
 })
 
 module.exports = mongoose.model('Users', usersSchema)

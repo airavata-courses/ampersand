@@ -1,12 +1,33 @@
-GET http://localhost:3000/users
+GET http://localhost:3001/users
 
 ###
 
-GET http://localhost:3000/users/61f624d24cd8c31c6faad539
+POST http://localhost:3001/users/name
+Content-Type: application/json
+
+{
+    "username": "NikhilKamble"
+}
+
+###
+PATCH  http://localhost:3001/users/62004ed297b8e6e1752f2b01
+Content-Type: application/json
+
+{
+    "id": "62004ed297b8e6e1752f2b01",
+    "aws_url":  "https://noaa-nexrad-level2.s3.amazonaws.com/2013/01/05/KLTX/KLTX20130105_000559_V06.gz",
+    "aws_fname":  "KLTX20130105_000559_V06.gz",
+    "cloud_url":  "https://res.cloudinary.com/airavata-ampersand/image/upload/v1644187349/KLTX20130105_000559_V06.gz.png"
+}
+
 
 ###
 
-POST http://localhost:3000/users
+GET http://localhost:3001/users/61ff6806dcfc66a37353d26f
+
+###
+
+POST http://localhost:3001/users
 Content-Type: application/json
 
 {
@@ -25,4 +46,4 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:3000/users/61f9036bea114f86479b2d72
+DELETE http://localhost:3001/users/61f9036bea114f86479b2d72
