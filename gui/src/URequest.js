@@ -3,6 +3,7 @@ import {React, useEffect} from 'react';
 import axios from 'axios';
 
 function URequest() {
+  document.title = "User History"
     useEffect(async () => {
 
       var user_data_url = "http://localhost:3001/users/name";
@@ -55,7 +56,7 @@ function URequest() {
           // Append columnName to the table row
           tr.appendChild(theader);
 			  }
-			
+        
 			  // Adding the data to the table
 			  for (var i = 0; i < list.length; i++) {
 
@@ -64,22 +65,22 @@ function URequest() {
           for (var j = 0; j < cols.length; j++) {
             var cell = trow.insertCell(-1);
             
-            if(j==cols.length-1){
-
-              console.log(list[i][cols[j]])
-              var link = list[i][cols[j]];
-              
-              cell.onclick=function(){
-                window.open(link);
-              }
-              
-              // cell.addEventListener("click", function(){
-                
-              // })
-            }
 
             // Inserting the cell at particular place
             cell.innerHTML = list[i][cols[j]];
+
+            if(j==cols.length-1){
+
+              console.log(list[i][cols[j]])
+
+              var link = list[i][cols[j]]
+              var newA = document.createElement('a')
+              newA.setAttribute('href',link)
+              newA.innerHTML = '&#8599'
+              
+              cell.appendChild(newA)
+              
+            }
             
 				}
 			}
