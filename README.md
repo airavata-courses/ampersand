@@ -2,6 +2,26 @@
 Spring 2022 Project Team 
 
 ## This branch consists of 5 microservices.
+<details>
+           <summary>account-service</summary>
+           <p>Contains google-authentication for user</p>
+</details>
+<details>
+           <summary>greetings-service</summary>
+           <p>Fetches username from google-authentication service</p>
+</details>
+<details>
+           <summary>data-ingestor</summary>
+           <p>Fetches URL from AWS</p>
+</details>
+<details>
+           <summary>data-plotting</summary>
+           <p>Plots the image from file</p>
+</details>
+<details>
+           <summary>database</summary>
+           <p>Keeps record of all user history</p>
+</details>
 
 Pre-requisites
 - Docker Desktop (Download -> https://www.docker.com/products/docker-desktop)
