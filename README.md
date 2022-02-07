@@ -63,4 +63,5 @@ Pre-requisites
     
 6. Deploy GUI
     > cd gui</br>
+    > npm i</br>
     > npm start</br>
