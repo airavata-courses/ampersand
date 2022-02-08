@@ -5,26 +5,33 @@ Spring 2022 Project Team
 <details>
            <summary>account-service</summary>
            <p>Contains google-authentication for user</p>
+           <p>Technologies Used - Passport JS, Axios, JWT Token, OpenID Conenct, OAuth 2.0</p>
 </details>
 <details>
            <summary>greetings-service</summary>
            <p>Fetches username from google-authentication service</p>
+           <p>Technologies Used - Passport JS, Axios, JWT Token, OpenID Conenct, OAuth 2.0</p>
 </details>
 <details>
            <summary>data-ingestor</summary>
            <p>Fetches URL from AWS</p>
+           <p>Technologies Used - Python, Fast API, Docker</p>
 </details>
 <details>
            <summary>data-plotting</summary>
            <p>Plots the image from file written</p>
+           <p>Technologies Used - Python, Fast API, Docker</p>
 </details>
 <details>
            <summary>radar-station</summary>
            <p>Gets the equivalent radar station code for the queried city</p>
+           <p>Technologies Used - Java, SpringBoot</p>
+
 </details>
 <details>
            <summary>database</summary>
            <p>Keeps record of all user history. This service is also the API Gateway of our application. It redirects all the requests from the frontend to all other microservices and connects with DB to store and retrieve user history.</p>
+           <p>Technologies Used - Express JS, Axios, Mongo DB</p>
 </details>
 
 Pre-requisites
@@ -46,7 +53,7 @@ Pre-requisites
 3. Deploy data-ingestor
     > cd data-ingestor <br/>
     > docker build -t data-ingestor-image . <br/>
-    > docker run -d --name adscontainer1 -p 81:81 data-ingestor-image <br/>
+    > docker run -d --name adscontainer1 -p 81:81 data-ingestor-image <br/><br/>
     > **OR (to run without docker execute below 3 steps)** <br/>
     > cd data-ingestor <br/>
     > pip install -r requirements.txt <br/>
@@ -55,7 +62,7 @@ Pre-requisites
 4. Deploy data-plotting
     > cd data-plotting <br/>
     > docker build -t data-plotting-image .<br/>
-    > docker run -d --name adscontainer -p 82:82 data-plotting-image <br/>
+    > docker run -d --name adscontainer -p 82:82 data-plotting-image <br/><br/
     > **OR (to run without docker execute below 3 steps)** <br/>
     > cd data-plotting <br/>
     > pip install -r requirements.txt  <br/>
