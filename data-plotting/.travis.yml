@@ -1,0 +1,11 @@
+#safelist
+branches:
+  only:
+  - feature/data-plotting
+  - feature/data-ingestor
+language: python
+python:
+  - "3.8"
+# command to install dependencies
+install:
+  - pip install -r requirements.txt
