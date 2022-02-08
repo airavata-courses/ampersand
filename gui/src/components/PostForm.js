@@ -3,23 +3,23 @@ import Axios from 'axios'
 import { useEffect } from 'react';
 import axios from 'axios';
 
-var url = "http://localhost:3001/users"
-var radar_url = "http://localhost:8080/radarstation?city="
-
-var rradar = ""
 var radar_data = ""
-
-// for data ingestor and data plotting requests
-var py_url = "http://localhost:81/fileurl/"
-var pl_url = "http://localhost:82/plot/"
-var nexrad_aws_url = ""
-var aws_f_name = ""
-var cloud_image_url = ""
-var ses_id = ""
-var patch_url = ""
 
 function PostForm(){
     document.title = "Dashboard";
+    var url = "http://localhost:3001/users"
+    var radar_url = "http://localhost:8080/radarstation?city="
+    
+    var rradar = ""
+    
+    // for data ingestor and data plotting requests
+    var py_url = "http://localhost:81/fileurl/"
+    var pl_url = "http://localhost:82/plot/"
+    var nexrad_aws_url = ""
+    var aws_f_name = ""
+    var cloud_image_url = ""
+    var ses_id = ""
+    var patch_url = ""
 
     const [name, setName] = useState('');
     
@@ -63,7 +63,11 @@ function PostForm(){
 
     function submit(e){
         e.preventDefault();
-        // alert("Your Request is in Process")
+        
+        if(radar_data == ""){
+            radar_data = "KBMX"
+        }
+
         console.log("nantar",radar_data)
         
         Axios.post(url, {
@@ -87,6 +91,8 @@ function PostForm(){
             patch_url = url+'/'+ses_id
             console.log(patch_url)
         })
+
+        alert("Your Request is in Process. Please wait for 3-5 seconds.")
 
         // for data ingestor request
         // const radar = (data.reqRadar).toUpperCase()
@@ -181,7 +187,7 @@ function PostForm(){
                                 <option value="paNomeec">Nome</option>
                                 <option value="Pedro Dome">Pedro Dome</option>
                                 <option value="Sitka">Sitka</option>
-                        <option value=""></option>
+                        {/* <option value=""></option>
                             <option value="">--Arizona</option>
                                 <option value="Flagstaff">Flagstaff</option>
                                 <option value="Phoenix">Phoenix</option>
@@ -449,7 +455,7 @@ function PostForm(){
                         
                         <option value="Kunsan">Kunsan</option>
                         <option value="Camp Humphrey">Camp Humphreys</option>
-                        <option value=""></option>
+                        <option value=""></option> */}
                     </select>
 
                     <h2>Select Date</h2>
