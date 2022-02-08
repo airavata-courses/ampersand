@@ -7,9 +7,11 @@ Team -
 3. Nikhil Kamble
 
 Data Plotting (Create docker image and add it to container) <br/>
+cd data-plotting <br/>
 docker build -t data-plotting-image . <br/>
 docker run -d --name adscontainer -p 82:82 data-plotting-image <br/>
 
 Data Plotting (without docker) <br/>
+cd data-plotting <br/>
 pip install -r requirements.txt  <br/>
 python -m uvicorn app.main:app --reload --port 82 <br/>
