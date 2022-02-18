@@ -1,0 +1,15 @@
+# docker-compose.yml
+
+version: '1.0'
+services:
+  data-ingestor:
+    build: ./data-ingestor
+    image: data-ingestor
+    ports:
+      - 81:81
+  
+  data-plotting:
+    build: ./data-plotting
+    image: data-plotting
+    ports:
+      - 82:82
