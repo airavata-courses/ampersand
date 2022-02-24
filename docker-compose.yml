@@ -2,6 +2,19 @@
 
 version: '1.0'
 services:
+
+  account-service:
+    build: ./account-service
+    image: account-service
+    ports:
+      - 5000:5000
+
+  greetings-service:
+    build: ./greetings-service
+    image: greetings-service
+    ports:
+      - 5001:5001
+
   data-ingestor:
     build: ./data-ingestor
     image: data-ingestor
@@ -13,3 +26,16 @@ services:
     image: data-plotting
     ports:
       - 82:82
+
+  radar-station:
+    build: ./radar-station
+    image: radar-station
+    ports:
+      - 8080:8080
+
+  mongodb:
+    image : mongo
+    volumes:
+      - /mongodb/database:/data/db
+    ports:
+      - 27017:27017
