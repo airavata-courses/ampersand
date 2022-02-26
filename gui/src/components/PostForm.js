@@ -3,29 +3,20 @@ import Axios from 'axios'
 import { useEffect } from 'react';
 import axios from 'axios';
 
+// global scope :: radar data
 var radar_data = ""
 
 function PostForm(){
     document.title = "Dashboard";
-    var url = "http://localhost:3001/users"
-    var radar_url = "http://localhost:8080/radarstation?city="
-    
-    var rradar = ""
-    
-    // for data ingestor and data plotting requests
-    var py_url = "http://localhost:81/fileurl/"
-    var pl_url = "http://localhost:82/plot/"
-    var nexrad_aws_url = ""
-    var aws_f_name = ""
-    var cloud_image_url = ""
-    var ses_id = ""
-    var patch_url = ""
+    var r_radar = ""
 
     const [name, setName] = useState('');
-    
+
     useEffect(async () => {
-      const result = await axios.get('http://localhost:5001/greetme', {
-        withCredentials: true
+        // gateway call for username
+        const greet_url = await axios.get('http://localhost:3001/greetme');
+        const result = await axios.get(greet_url.data.url, {
+            withCredentials: true
       });
       const aname = (result.data.fullName).replace(" ", "")
       setName(aname);
@@ -46,17 +37,19 @@ function PostForm(){
     })
 
     function rad(){
-        if((document.getElementById("reqRadar").value) != ""){
-            rradar = document.getElementById("reqRadar").value
-            radar_url = radar_url + rradar
+        if((document.getElementById("reqRadar").value) !== ""){
+            r_radar = document.getElementById("reqRadar").value
 
-            // radar station name microservice
-            Axios.get(radar_url, {headers:{
-                "authorization" : 'token' , 'Access-Control-Allow-Origin': "*"
-            }})
+            // console.log(r_radar)
+
+            // radar station name microservice via gateway
+            axios.post("http://localhost:3001/radar", {
+                rradar: r_radar
+            })
             .then(res =>{
-                radar_data = res.data
-                console.log("adhi",radar_data)
+                // console.log("sab", r_radar)
+                radar_data = res.data.rad
+                // console.log("adhi",radar_data)
             })
         }
     }
@@ -64,13 +57,13 @@ function PostForm(){
     function submit(e){
         e.preventDefault();
         
-        if(radar_data == ""){
+        if(radar_data === ""){
             radar_data = "KBMX"
         }
 
         console.log("nantar",radar_data)
         
-        Axios.post(url, {
+        Axios.post("http://localhost:3001/users", {
             username: name,
             reqRadar: radar_data,
             reqDateYYYY: data.reqDateYYYY, 
@@ -84,56 +77,14 @@ function PostForm(){
             reqEndTimeSS: data.reqEndTimeSS
         })
         .then(res =>{
-            console.log(res.data)
-            console.log(res.data._id)
-            // console.log("sometime it is possible")
-            ses_id = res.data._id
-            patch_url = url+'/'+ses_id
-            console.log(patch_url)
+            var cloud_image_url = res.data.cloud_image_url
+            // console.log(res.data)
+            // console.log(res.data.message, cloud_image_url)
+            document.getElementById("graph_image").src = cloud_image_url
+            // document.getElementById("user_form").reset()
         })
 
         alert("Your Request is in Process. Please wait for 3-5 seconds.")
-
-        // for data ingestor request
-        // const radar = (data.reqRadar).toUpperCase()
-
-        const rem_url = data.reqDateYYYY + '/' + data.reqDateMM + '/' + data.reqDateDD + '/' + radar_data + '/' + data.reqStartTimeHH + data.reqStartTimeMM
-        console.log(py_url + rem_url)
-
-        Axios.get(py_url+rem_url, {
-        })
-        .then(res => {
-            console.log(res.data.url, res.data.file_name)
-            nexrad_aws_url = res.data.url
-            aws_f_name = res.data.file_name
-            console.log("updated url's",nexrad_aws_url, aws_f_name)
-
-            // for data plotting request
-            axios.post(pl_url, {
-                user_id: ses_id, 
-                url: nexrad_aws_url,
-                file_name: aws_f_name
-            })
-            .then(res =>{
-                console.log(res.data.cloud_plot_url)
-                cloud_image_url = res.data.cloud_plot_url
-                
-                console.log("success is a journey")
-                document.getElementById("graph_image").src = cloud_image_url
-                console.log(patch_url, ses_id, nexrad_aws_url, aws_f_name, cloud_image_url)
-
-                // updating the database
-                axios.patch(patch_url, {
-                    id: ses_id, 
-                    aws_url: nexrad_aws_url,
-                    aws_fname: aws_f_name,
-                    cloud_url: cloud_image_url
-                })
-                .then(res =>{
-                    console.log(res.data)  
-                })
-            })
-        })
         
     }
 
@@ -141,7 +92,7 @@ function PostForm(){
         const newdata = {...data}
         newdata[e.target.id] = e.target.value
         setData(newdata)
-        console.log(newdata)
+        // console.log(newdata)
         // console.log(e.target.value)
         // rad(e.target.value)
     }
@@ -164,7 +115,7 @@ function PostForm(){
 
             <img id="graph_image" src="" style={{height: "500px" , width: "600px", position:"absolute", left:"0", marginLeft:"700px"}}/>
             
-            <form onSubmit={(e)=> submit(e)} style={{position:"absolute", left:"0", marginLeft:"100px"}}>
+            <form onSubmit={(e)=> submit(e)} style={{position:"absolute", left:"0", marginLeft:"100px"}} id={"user_form"}>
                     {/* <input style={{ height: "40px" , width: "200px" }} onChange={(e) => handle(e)} id="username" value={data.username} type="text" id="username" placeholder="username" name="username" required /> */}
                     <h2>Select Radars by State</h2>
                     <select style={{ height: "40px" , width: "200px" }} onChange={(e) => handle(e)} onClick={rad} id="reqRadar" value={data.reqRadar}  type="text" id="reqRadar" placeholder="reqRadar" name="reqRadar" required>
@@ -184,10 +135,10 @@ function PostForm(){
                                 <option value="Kenai">Kenai</option>
                                 <option value="King Salmon">King Salmon</option>
                                 <option value="Middleton Is.">Middleton Is.</option>
-                                <option value="paNomeec">Nome</option>
+                                <option value="Nome">Nome</option>
                                 <option value="Pedro Dome">Pedro Dome</option>
                                 <option value="Sitka">Sitka</option>
-                        {/* <option value=""></option>
+                        <option value=""></option>
                             <option value="">--Arizona</option>
                                 <option value="Flagstaff">Flagstaff</option>
                                 <option value="Phoenix">Phoenix</option>
@@ -455,7 +406,7 @@ function PostForm(){
                         
                         <option value="Kunsan">Kunsan</option>
                         <option value="Camp Humphrey">Camp Humphreys</option>
-                        <option value=""></option> */}
+                        <option value=""></option>
                     </select>
 
                     <h2>Select Date</h2>

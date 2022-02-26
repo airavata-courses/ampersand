@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import nexraddata.service.RadarStationService;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3001/radar")
 @RestController
 public class RadarStationController {
 	
