@@ -54,7 +54,7 @@ router.post('/', async (req, res) => {
     try{
         const newUser = await users.save()
         // res.status(201).json(newUser)
-        const image_url = await axios({method:'post',url:'http://localhost:3001/plot', data: newUser})
+        const image_url = await axios({method:'post',url:'http://api-gateway:3001/plot', data: newUser})
         // res.send("image_url")
         // res.status(201).json({s: image_url.body.abc})
         res.status(201).json({cloud_image_url: image_url.data.cloud_url, message: "All Services Worked"})

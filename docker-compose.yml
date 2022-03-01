@@ -8,12 +8,16 @@ services:
     image: account-service
     ports:
       - 5000:5000
+    networks:
+      - mern-app
 
   greetings-service:
     build: ./greetings-service
     image: greetings-service
     ports:
       - 5001:5001
+    networks:
+      - mern-app
 
   data-ingestor:
     build: ./data-ingestor
@@ -33,21 +37,37 @@ services:
     ports:
       - 8080:8080
 
-  mongodb:
-    image : mongo
-    volumes:
-      - /mongodb/database:/data/db
+  mongo:
+    image: "mongo:4.4-bionic"
     ports:
-      - 27017:27017
+      - "27017:27017"
+    networks:
+      - mern-app
+    # network_mode: host
+    volumes:
+      - mongo-data:/data/db
 
   gui:
     build: ./gui
     image: gui
     ports:
       - 3000:3000
+    networks:
+      - mern-app
   
   api-gateway:
     build: ./api-gateway
     image: api-gateway
     ports:
       - 3001:3001
+    depends_on:
+      - 'mongo'
+    networks:
+      - mern-app
+
+networks:
+  mern-app:
+    driver: bridge
+volumes:
+  mongo-data:
+    driver: local
