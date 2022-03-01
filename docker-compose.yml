@@ -1,6 +1,6 @@
 # docker-compose.yml
 
-version: '1.0'
+version: '3.4'
 services:
 
   account-service:
@@ -39,3 +39,15 @@ services:
       - /mongodb/database:/data/db
     ports:
       - 27017:27017
+
+  gui:
+    build: ./gui
+    image: gui
+    ports:
+      - 3000:3000
+  
+  api-gateway:
+    build: ./api-gateway
+    image: api-gateway
+    ports:
+      - 3001:3001
