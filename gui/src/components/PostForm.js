@@ -14,7 +14,7 @@ function PostForm(){
 
     useEffect(async () => {
         // gateway call for username
-        const greet_url = await axios.get('http://api-gateway:3001/greetme');
+        const greet_url = await axios.get('http://localhost:3001/greetme');
         const result = await axios.get(greet_url.data.url, {
             withCredentials: true
       });
@@ -43,7 +43,7 @@ function PostForm(){
             // console.log(r_radar)
 
             // radar station name microservice via gateway
-            axios.post("http://api-gateway:3001/radar", {
+            axios.post("http://localhost:3001/radar", {
                 rradar: r_radar
             })
             .then(res =>{
@@ -63,7 +63,7 @@ function PostForm(){
 
         console.log("nantar",radar_data)
         
-        Axios.post("http://api-gateway:3001/users", {
+        Axios.post("http://localhost:3001/users", {
             username: name,
             reqRadar: radar_data,
             reqDateYYYY: data.reqDateYYYY, 
@@ -109,7 +109,7 @@ function PostForm(){
             <hr></hr>
             
             <button style={{ height: "40px" , width: "200px", position:"absolute", right:"0", marginRight:"300px"}} onClick={request}>USER HISTORY</button>
-            <a href='http://gui:3000'><button style={{ height: "40px" , width: "200px", position:"absolute", right:"0", marginRight:"20px"}}>LOGOUT</button></a>
+            <a href='http://localhost:3000'><button style={{ height: "40px" , width: "200px", position:"absolute", right:"0", marginRight:"20px"}}>LOGOUT</button></a>
             
             <br/><br/><br/><br/>
 

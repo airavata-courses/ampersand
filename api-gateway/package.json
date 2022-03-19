@@ -13,7 +13,8 @@
     "express-csp-header": "^5.0.0",
     "http": "^0.0.1-security",
     "http-server": "^14.1.0",
-    "mongoose": "^6.1.8"
+    "mongoose": "^6.1.8",
+    "http-proxy-middleware": "^2.0.2"
   },
   "devDependencies": {
     "dotenv": "^14.3.2",

@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const Axios = require('axios')
 
-var users_url = "http://api-gateway:3001/users"
+var users_url = "http://localhost:3001/users"
 var py_url = "http://data-ingestor:81/fileurl/"
 var pl_url = "http://data-plotting:82/plot/"
 
@@ -41,15 +41,18 @@ router.post("/", async (req, response) => {
     // py_url = py_url + rem_url
 
     // data ingestor API call request
-    Axios.get(py_url+rem_url, {
-    })
+    try{
+    Axios.get(py_url+rem_url, {headers:{
+        "authorization" : 'token' , 'Access-Control-Allow-Origin': "*"
+
+    }})
     .then(res => {
         nexrad_aws_url = res.data.url
         aws_f_name = res.data.file_name
         console.log(nexrad_aws_url, aws_f_name)
 
         // for data plotting API call request
-        Axios.post(pl_url, {
+         Axios.post(pl_url, {
             user_id: ses_id, 
             url: nexrad_aws_url,
             file_name: aws_f_name
@@ -59,7 +62,7 @@ router.post("/", async (req, response) => {
             console.log(cloud_image_url)
 
             // modifying the database with new results
-            Axios.patch(patch_url, {
+             Axios.patch(patch_url, {
                 id: ses_id, 
                 aws_url: nexrad_aws_url,
                 aws_fname: aws_f_name,
@@ -72,7 +75,10 @@ router.post("/", async (req, response) => {
                 response.status(201).json({cloud_url: cloud_image_url})
             })
         })
-    })
+    })}
+    catch(err){
+        console.log(err);
+    }
 })
 
 module.exports = router

@@ -24,18 +24,24 @@ services:
     image: data-ingestor
     ports:
       - 81:81
+    networks:
+      - mern-app
   
   data-plotting:
     build: ./data-plotting
     image: data-plotting
     ports:
       - 82:82
+    networks:
+      - mern-app
 
   radar-station:
     build: ./radar-station
     image: radar-station
     ports:
       - 8080:8080
+    networks:
+      - mern-app
 
   mongo:
     image: "mongo:4.4-bionic"
