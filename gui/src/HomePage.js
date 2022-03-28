@@ -7,7 +7,7 @@ function App() {
   document.title = "Login Page";
   
   // gateway call for authentication
-  axios.get('http://localhost:3001/auth')
+  axios.get('http://localhost:30001/auth')
   .then(res => {
     console.log(res);
     const google_url = (res.data.url)
