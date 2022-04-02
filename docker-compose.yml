@@ -35,13 +35,14 @@ services:
     networks:
       - mern-app
 
-  radar-station:
-    build: ./radar-station
-    image: radar-station
-    ports:
-      - 8080:8080
-    networks:
-      - mern-app
+  # radar-station:
+  #   container_name: radar-station
+  #   build: ./radar-station
+  #   image: radar-station
+  #   ports:
+  #     - 8080:8080
+  #   networks:
+  #     - mern-app
 
   mongo:
     image: "mongo:4.4-bionic"
