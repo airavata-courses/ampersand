@@ -52,8 +52,10 @@ router.post('/', async (req, res) => {
         reqEndTimeSS: req.body.reqEndTimeSS
     })
     try{
+        console.log("saving user")
         const newUser = await users.save()
         // res.status(201).json(newUser)
+        console.log("users saved")
         const image_url = await axios({method:'post',url:'http://localhost:3001/plot', data: newUser})
         // res.send("image_url")
         // res.status(201).json({s: image_url.body.abc})
