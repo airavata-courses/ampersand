@@ -3,6 +3,8 @@ import Axios from 'axios'
 import { useEffect } from 'react';
 import axios from 'axios';
 
+const host_url = require('../Utilities.js');
+
 // global scope :: radar data
 var radar_data = ""
 
@@ -14,7 +16,7 @@ function PostForm(){
 
     useEffect(async () => {
         // gateway call for username
-        const greet_url = await axios.get('http://localhost:30001/greetme');
+        const greet_url = await axios.get(host_url.host_url+":30001/greetme");
         const result = await axios.get(greet_url.data.url, {
             withCredentials: true
       });
@@ -43,7 +45,7 @@ function PostForm(){
             // console.log(r_radar)
 
             // radar station name microservice via gateway
-            axios.post("http://localhost:30001/radar", {
+            axios.post(host_url.host_url+"30001/radar", {
                 rradar: r_radar
             })
             .then(res =>{
@@ -63,7 +65,7 @@ function PostForm(){
 
         console.log("nantar",radar_data)
         
-        Axios.post("http://localhost:30001/users", {
+        Axios.post(host_url.host_url+":30001/users", {
             username: name,
             reqRadar: radar_data,
             reqDateYYYY: data.reqDateYYYY, 

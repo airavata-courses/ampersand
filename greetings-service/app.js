@@ -5,11 +5,13 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const session = require('express-session')
 
+const host_url = require('./Utilities.js');
+
 const indexRouter = require('./routes/index');
 
 const app = express();
 
-app.use(cors({ credentials: true, origin: 'http://localhost:30000' }));
+app.use(cors({ credentials: true, origin: host_url.host_url+":30000" }));
 app.use(logger('dev'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());

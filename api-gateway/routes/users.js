@@ -6,6 +6,8 @@ const mongoose = require('mongoose')
 const { default: axios } = require('axios')
 mongoose.connect(process.env.DATABASE_URL)
 
+const host_url = require('../Utilities.js');
+
 // getting all users
 router.get('/', async (req, res) => {
     try{
@@ -56,7 +58,9 @@ router.post('/', async (req, res) => {
         const newUser = await users.save()
         // res.status(201).json(newUser)
         console.log("users saved")
-        const image_url = await axios({method:'post',url:'http://localhost:3001/plot', data: newUser})
+        const plot_api_url = host_url.host_url+":3001/plot";
+        console.log(plot_api_url);
+        const image_url = await axios({method:'post',url: plot_api_url, data: newUser})
         // res.send("image_url")
         // res.status(201).json({s: image_url.body.abc})
         res.status(201).json({cloud_image_url: image_url.data.cloud_url, message: "All Services Worked"})
