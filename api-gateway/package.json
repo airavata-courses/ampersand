@@ -7,14 +7,16 @@
     "start": "nodemon app.js"
   },
   "dependencies": {
+    "amqplib": "^0.8.0",
     "axios": "^0.25.0",
     "cors": "^2.8.5",
     "express": "^4.17.2",
     "express-csp-header": "^5.0.0",
     "http": "^0.0.1-security",
+    "http-proxy-middleware": "^2.0.2",
     "http-server": "^14.1.0",
     "mongoose": "^6.1.8",
-    "http-proxy-middleware": "^2.0.2"
+    "rascal": "^14.4.0"
   },
   "devDependencies": {
     "dotenv": "^14.3.2",

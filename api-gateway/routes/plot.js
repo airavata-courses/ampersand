@@ -31,7 +31,7 @@ router.post("/", async (req, response) => {
     const reqEndTimeMM = req.body.reqEndTimeMM;
     const reqEndTimeSS = req.body.reqEndTimeSS;
 
-    console.log(ses_id, username, historyDate, reqRadar, reqDateYYYY, reqDateMM, reqDateDD, reqStartTimeHH, reqStartTimeMM, reqStartTimeSS, reqEndTimeHH, reqEndTimeMM, reqEndTimeSS);
+    // console.log(ses_id, username, historyDate, reqRadar, reqDateYYYY, reqDateMM, reqDateDD, reqStartTimeHH, reqStartTimeMM, reqStartTimeSS, reqEndTimeHH, reqEndTimeMM, reqEndTimeSS);
 
     // for patching the individual user request
     patch_url = users_url + '/' + ses_id;
@@ -49,7 +49,8 @@ router.post("/", async (req, response) => {
     .then(res => {
         nexrad_aws_url = res.data.url
         aws_f_name = res.data.file_name
-        console.log(nexrad_aws_url, aws_f_name)
+        // console.log(nexrad_aws_url, aws_f_name)
+        console.log("Ingestor Service Success")
 
         // for data plotting API call request
          Axios.post(pl_url, {
@@ -59,7 +60,8 @@ router.post("/", async (req, response) => {
         })
         .then(res =>{
             cloud_image_url = res.data.cloud_plot_url
-            console.log(cloud_image_url)
+            // console.log(cloud_image_url)
+            console.log("Plotting Service Success")
 
             // modifying the database with new results
              Axios.patch(patch_url, {
@@ -69,8 +71,9 @@ router.post("/", async (req, response) => {
                 cloud_url: cloud_image_url
             })
             .then(res =>{
-                console.log(res.data)
-
+                // console.log(res.data)
+                console.log("Database Updated with new values for request ->", ses_id)
+                
                 // sending the cloud image url to the user
                 response.status(201).json({cloud_url: cloud_image_url})
             })

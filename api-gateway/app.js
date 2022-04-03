@@ -25,8 +25,8 @@ const usersRouter_greetme = require('./routes/greetme')
 app.use('/greetme', usersRouter_greetme)
 
 // for radar station request
-const usersRouter_radar = require('./routes/radar')
-app.use('/radar', usersRouter_radar)
+// const usersRouter_radar = require('./routes/radar')
+// app.use('/radar', usersRouter_radar)
 
 // for google auth
 const usersRouter_auth = require('./routes/auth')
@@ -35,6 +35,22 @@ app.use('/auth', usersRouter_auth)
 // for plotting process user request
 const usersRouter_plot = require('./routes/plot')
 app.use('/plot', usersRouter_plot)
+
+// for data ingestor queue (send)
+const diqueue_send = require('./routes/singestq')
+app.use('/singestq', diqueue_send)
+
+// for data ingestor queue (receive)
+const diqueue_receieve = require('./routes/ringestq')
+app.use('/ringestq', diqueue_receieve)
+
+// for data plotting queue (send)
+const dpqueue_send = require('./routes/splotq')
+app.use('/singestq', dpqueue_send)
+
+// for data plotting queue (receive)
+const dpqueue_receieve = require('./routes/rplotq')
+app.use('/ringestq', dpqueue_receieve)
 
 app.use(expressCspHeader({ 
     policies: { 

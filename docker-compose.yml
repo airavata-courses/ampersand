@@ -9,7 +9,7 @@ services:
     ports:
       - 5000:5000
     networks:
-      - mern-app
+      - ampersand-network
 
   greetings-service:
     build: ./greetings-service
@@ -17,7 +17,7 @@ services:
     ports:
       - 5001:5001
     networks:
-      - mern-app
+      - ampersand-network
 
   data-ingestor:
     build: ./data-ingestor
@@ -25,7 +25,7 @@ services:
     ports:
       - 81:81
     networks:
-      - mern-app
+      - ampersand-network
   
   data-plotting:
     build: ./data-plotting
@@ -33,25 +33,41 @@ services:
     ports:
       - 82:82
     networks:
-      - mern-app
+      - ampersand-network
 
-  radar-station:
-    build: ./radar-station
-    image: radar-station
-    ports:
-      - 8080:8080
-    networks:
-      - mern-app
+  # radar-station:
+  #   build: ./radar-station
+  #   image: radar-station
+  #   ports:
+  #     - 8080:8080
+  #   networks:
+  #     - ampersand-network
 
   mongo:
     image: "mongo:4.4-bionic"
     ports:
       - "27017:27017"
     networks:
-      - mern-app
-    # network_mode: host
+      - ampersand-network
     volumes:
       - mongo-data:/data/db
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_PASS=guest
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_PASSWORD=guest
+      - RABBITMQ_USERNAME=guest
+    networks:
+      - ampersand-network
 
   gui:
     build: ./gui
@@ -59,7 +75,7 @@ services:
     ports:
       - 3000:3000
     networks:
-      - mern-app
+      - ampersand-network
   
   api-gateway:
     build: ./api-gateway
@@ -69,10 +85,11 @@ services:
     depends_on:
       - 'mongo'
     networks:
-      - mern-app
+      - ampersand-network
 
 networks:
-  mern-app:
+  ampersand-network:
+    name: ampersand-network
     driver: bridge
 volumes:
   mongo-data:

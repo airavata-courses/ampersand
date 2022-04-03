@@ -2,9 +2,12 @@ const express = require('express')
 const router = express.Router()
 const User = require('../models/users')
 
+// mongoose (mongoDB) 
 const mongoose = require('mongoose')
 const { default: axios } = require('axios')
 mongoose.connect(process.env.DATABASE_URL)
+
+// const amqp = require('amqplib/callback_api')
 
 // getting all users
 router.get('/', async (req, res) => {
@@ -54,11 +57,22 @@ router.post('/', async (req, res) => {
     try{
         const newUser = await users.save()
         // res.status(201).json(newUser)
-        const image_url = await axios({method:'post',url:'http://localhost:3001/plot', data: newUser})
-        // res.send("image_url")
-        // res.status(201).json({s: image_url.body.abc})
+        
+        // mq producer code (sending to ingest_queue)
+        const ingest_a = await axios({method:'post',url:'http://localhost:3001/singestq', data: newUser})
+        console.log("INGEST MQ (sent) ->", ingest_a.data)
+        
+        // mq consumer code (receiving from ingest_queue)
+        const ingest_b = await axios({method:'get',url:'http://localhost:3001/ringestq'})
+        console.log("INGEST MQ (received) ->", ingest_b.data)
+        
+        // sending the ingest queue data to next service
+        const image_url = await axios({method:'post',url:'http://localhost:3001/plot', data: ingest_b.data})
+        
+        console.log("all services worked, sending cloud_url back to UI",image_url.data)
         res.status(201).json({cloud_image_url: image_url.data.cloud_url, message: "All Services Worked"})
     } catch (err) {
+        console.log("error")
         res.status(400).json({message: err.message})
     }
 })
@@ -72,7 +86,7 @@ router.patch('/:id', async (req, res) => {
             cloud_url:  req.body.cloud_url
         });
         res.status(201).json({message: "Database Modified"})
-        console.log("modified")
+        // console.log("modified")
     }
     catch(e){
         console.log(e.message)
