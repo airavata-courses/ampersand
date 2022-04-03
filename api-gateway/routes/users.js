@@ -6,6 +6,7 @@ const User = require('../models/users')
 const mongoose = require('mongoose')
 const { default: axios } = require('axios')
 mongoose.connect(process.env.DATABASE_URL)
+mongoose.Promise = global.Promise
 
 // const amqp = require('amqplib/callback_api')
 
@@ -13,22 +14,22 @@ mongoose.connect(process.env.DATABASE_URL)
 router.get('/', async (req, res) => {
     try{
         const users = await User.find()
-        res.json(users)
+        return res.json(users)
     } catch (err){
-        res.status(500).json({message: err.message})
+        return res.status(500).json({message: err.message})
     }
 })
 
 // getting one user using user id
 router.get('/:id', getUser, (req, res) => {
-    res.json(res.user)
+    return res.json(res.user)
 })
 
 // getting data using username
 router.post('/name', async (req, res) => {
     try{
         const docs = await User.find({ username:  req.body.username});
-        res.json(docs)
+        return res.json(docs)
     }
     catch(e){
         console.log(e.message)
@@ -63,17 +64,17 @@ router.post('/', async (req, res) => {
         console.log("INGEST MQ (sent) ->", ingest_a.data)
         
         // mq consumer code (receiving from ingest_queue)
-        const ingest_b = await axios({method:'get',url:'http://localhost:3001/ringestq'})
+        const ingest_b = await axios({method:'post',url:'http://localhost:3001/ringestq', data: 'something'})
         console.log("INGEST MQ (received) ->", ingest_b.data)
         
         // sending the ingest queue data to next service
         const image_url = await axios({method:'post',url:'http://localhost:3001/plot', data: ingest_b.data})
         
         console.log("all services worked, sending cloud_url back to UI",image_url.data)
-        res.status(201).json({cloud_image_url: image_url.data.cloud_url, message: "All Services Worked"})
+        return res.status(201).json({cloud_image_url: image_url.data.cloud_url, message: "All Services Worked"})
     } catch (err) {
         console.log("error")
-        res.status(400).json({message: err.message})
+        return res.status(400).json({message: err.message})
     }
 })
 
@@ -85,7 +86,7 @@ router.patch('/:id', async (req, res) => {
             aws_fname:  req.body.aws_fname,
             cloud_url:  req.body.cloud_url
         });
-        res.status(201).json({message: "Database Modified"})
+        return res.status(201).json({message: "Database Modified"})
         // console.log("modified")
     }
     catch(e){
@@ -97,9 +98,9 @@ router.patch('/:id', async (req, res) => {
 router.delete('/:id', getUser, async (req, res) => {
     try{
         await res.user.remove()
-        res.json({message: "Deleted User Successfully"})
+        return res.json({message: "Deleted User Successfully"})
     }catch (err){
-        res.status(500).json({message: err.message})
+        return res.status(500).json({message: err.message})
     }
 })
 

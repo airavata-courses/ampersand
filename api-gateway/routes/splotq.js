@@ -16,12 +16,12 @@ const rabbitSettings = {
 
 router.post('/', async (req, response) => {
 
-    connect();
-    async function connect(){
+    // connect();
+    // async function connect(){
         
         const QUEUE = 'PLOT_QUEUE'
         
-        try{
+        // try{
             console.log("conn")
             const conn = await amqp.connect(rabbitSettings);
             console.log("chann")
@@ -33,11 +33,11 @@ router.post('/', async (req, response) => {
             console.log("string",msg)
             await channel.sendToQueue(QUEUE, Buffer.from(msg));
             response.status(201).json({'message':'success'});
-        }
-        catch(err){
-            console.error(`Error -> ${err}`);
-        }
-    }
+        // }
+        // catch(err){
+        //     console.error(`Error -> ${err}`);
+        // }
+    // }
     // // create connection
     // console.log("0xxxxxxxxxxxxxxxxx0")
     // await amqp.connect(rabbitSettings, (connError, connection) => {

@@ -14,29 +14,36 @@ const rabbitSettings = {
     authMechanism: ['PLAIN', 'AMQPLAIN', 'EXTERNAL']
 }
 
-router.get("/", async (req, response) => {
+router.post("/", async (req, response) => {
     
-    connect();
-    async function connect(){
+    // connect();
+    // async function connect(){
         
         const QUEUE = 'PLOT_QUEUE'
         
-        try{
+        // try{
+            console.log("r1")
             const conn = await amqp.connect(rabbitSettings);
+            console.log("r2")
             const channel = await conn.createChannel();
+            console.log("r3")
             const res = await channel.assertQueue(QUEUE);
             
+            console.log("r4")
             channel.consume(QUEUE, message => {
                 let msg = JSON.parse(message.content.toString());
-                response.status(201).json(msg);
-            }, {noAck: true})
+                console.log("r5")
+                channel.ack(message)
+                channel.close()
+                return response.status(201).json(msg);
+            })
 
             
-        }
-        catch(err){
-            console.error(`Error -> ${err}`);
-        }
-    }
+    //     }
+    //     catch(err){
+    //         console.error(`Error -> ${err}`);
+    //     }
+    // }
 
     // // create connection
     // amqp.connect('amqp://guest:guest@rabbitmq', (connError, connection) => {
