@@ -70,8 +70,16 @@ router.post('/', async (req, res) => {
         // sending the ingest queue data to next service
         const image_url = await axios({method:'post',url:'http://localhost:3001/plot', data: ingest_b.data})
         
-        console.log("all services worked, sending cloud_url back to UI",image_url.data)
-        return res.status(201).json({cloud_image_url: image_url.data.cloud_url, message: "All Services Worked"})
+        // mq producer code (sending to plot_queue)
+        const plot_a = await axios({method:'post',url:'http://localhost:3001/splotq', data: image_url.data})
+        console.log("PLOT MQ (sent) ->", plot_a.data)
+
+        // mq consumer code (receiving from plot_queue)
+        const plot_b = await axios({method:'post',url:'http://localhost:3001/rplotq', data: 'something'})
+        console.log("PLOT MQ (received) ->", plot_b.data)
+
+        console.log("all services worked, sending cloud_url back to UI",plot_b.data)
+        return res.status(201).json({cloud_image_url: plot_b.data.cloud_url, message: "All Services Worked"})
     } catch (err) {
         console.log("error")
         return res.status(400).json({message: err.message})

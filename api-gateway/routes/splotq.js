@@ -22,15 +22,15 @@ router.post('/', async (req, response) => {
         const QUEUE = 'PLOT_QUEUE'
         
         // try{
-            console.log("conn")
+            // console.log("conn")
             const conn = await amqp.connect(rabbitSettings);
-            console.log("chann")
+            // console.log("chann")
             const channel = await conn.createChannel();
-            console.log("assert")
+            // console.log("assert")
             const res = await channel.assertQueue(QUEUE);
-            console.log("body",req.body)
+            // console.log("body",req.body)
             let msg = JSON.stringify(req.body);
-            console.log("string",msg)
+            // console.log("string",msg)
             await channel.sendToQueue(QUEUE, Buffer.from(msg));
             response.status(201).json({'message':'success'});
         // }

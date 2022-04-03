@@ -46,11 +46,11 @@ app.use('/ringestq', diqueue_receieve)
 
 // for data plotting queue (send)
 const dpqueue_send = require('./routes/splotq')
-app.use('/singestq', dpqueue_send)
+app.use('/splotq', dpqueue_send)
 
 // for data plotting queue (receive)
 const dpqueue_receieve = require('./routes/rplotq')
-app.use('/ringestq', dpqueue_receieve)
+app.use('/rplotq', dpqueue_receieve)
 
 app.use(expressCspHeader({ 
     policies: { 

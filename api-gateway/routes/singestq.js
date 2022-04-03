@@ -22,16 +22,16 @@ router.post('/', async (req, response) => {
         const QUEUE = 'INGEST_QUEUE'
         
         // try{
-            console.log("s1")
+            // console.log("s1")
             const conn = await amqp.connect(rabbitSettings);
-            console.log("s2")
+            // console.log("s2")
             const channel = await conn.createChannel();
-            console.log("s3")
+            // console.log("s3")
             const res = await channel.assertQueue(QUEUE);
-            console.log("s4")
+            // console.log("s4")
             let msg = JSON.stringify(req.body);
             await channel.sendToQueue(QUEUE, Buffer.from(msg));
-            console.log("s5")
+            // console.log("s5")
             return response.status(201).json({'message':'success'});
         // }
         // catch(err){
