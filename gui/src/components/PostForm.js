@@ -12,7 +12,7 @@ function PostForm(){
     document.title = "Dashboard";
     var r_radar = ""
 
-    const [name, setName] = useState('DhrutiPatel');
+    const [name, setName] = useState('');
 
     useEffect(async () => {
         // gateway call for username
