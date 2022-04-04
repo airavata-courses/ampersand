@@ -12,7 +12,7 @@ function PostForm(){
     document.title = "Dashboard";
     var r_radar = ""
 
-    const [name, setName] = useState('');
+    const [name, setName] = useState('DhrutiPatel');
 
     useEffect(async () => {
         // gateway call for username
@@ -111,7 +111,7 @@ function PostForm(){
             <hr></hr>
             
             <button style={{ height: "40px" , width: "200px", position:"absolute", right:"0", marginRight:"300px"}} onClick={request}>USER HISTORY</button>
-            <a href='http://localhost:30000'><button style={{ height: "40px" , width: "200px", position:"absolute", right:"0", marginRight:"20px"}}>LOGOUT</button></a>
+            <a href='http://149.165.154.175:30000'><button style={{ height: "40px" , width: "200px", position:"absolute", right:"0", marginRight:"20px"}}>LOGOUT</button></a>
             
             <br/><br/><br/><br/>
 

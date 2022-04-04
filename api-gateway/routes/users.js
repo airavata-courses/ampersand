@@ -58,7 +58,7 @@ router.post('/', async (req, res) => {
         const newUser = await users.save()
         // res.status(201).json(newUser)
         console.log("users saved")
-        const plot_api_url = host_url.host_url+":3001/plot";
+        const plot_api_url = host_url.host_url+":30001/plot";
         console.log(plot_api_url);
         const image_url = await axios({method:'post',url: plot_api_url, data: newUser})
         // res.send("image_url")

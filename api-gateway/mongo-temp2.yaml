@@ -1,0 +1,157 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: slow
+provisioner: kubernetes.io/gce-pd
+parameters:
+  type: pd-standard
+
+---
+
+apiVersion: v1
+
+kind: PersistentVolumeClaim
+
+metadata:
+
+  creationTimestamp: null
+
+  labels:
+
+    io.kompose.service: mongo-pvc
+
+  name: mongo-pvc
+
+spec:
+
+  storageClassName: slow
+
+  accessModes:
+
+    - ReadWriteOnce
+
+  resources:
+
+    requests:
+
+      storage: 2000Mi
+
+
+---
+
+
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+
+  annotations:
+
+    kompose.cmd: kompose convert
+
+    kompose.version: 1.26.1 (HEAD)
+
+  creationTimestamp: null
+
+  labels:
+
+    io.kompose.service: mongo
+
+  name: mongo
+
+spec:
+
+  replicas: 1
+
+  selector:
+
+    matchLabels:
+
+      io.kompose.service: mongo
+
+  strategy:
+
+    type: Recreate
+
+  template:
+
+    metadata:
+
+      annotations:
+
+        kompose.cmd: kompose convert
+
+        kompose.version: 1.26.1 (HEAD)
+
+      creationTimestamp: null
+
+      labels:
+
+        io.kompose.service: mongo
+
+    spec:
+
+      containers:
+
+        - image: mongo:4.4-bionic
+
+          name: mongo
+
+          ports:
+
+            - containerPort: 27017
+
+          volumeMounts:
+
+            - mountPath: /data/db
+
+              name: mongo
+
+      restartPolicy: Always
+
+      volumes:
+
+        - name: mongo
+
+          persistentVolumeClaim:
+
+            claimName: mongo-pvc
+
+
+---
+
+
+apiVersion: v1
+
+kind: Service
+
+metadata:
+
+  annotations:
+
+    kompose.cmd: kompose convert
+
+    kompose.version: 1.26.1 (HEAD)
+
+  creationTimestamp: null
+
+  labels:
+
+    io.kompose.service: mongo
+
+  name: mongo
+
+spec:
+
+  ports:
+
+    - name: "27017"
+
+      port: 27017
+
+      targetPort: 27017
+
+  selector:
+
+    io.kompose.service: mongo
