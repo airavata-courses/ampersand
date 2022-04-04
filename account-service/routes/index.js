@@ -25,7 +25,7 @@ router.get('/auth/google/callback',
      expiresIn: 60 * 60,
    });
    res.cookie('auth', token, { httpOnly: true });
-   res.redirect(host_url.host_url+":30000/dashboard");
+   res.redirect("http://149.165.154.175.nip.io:30000/dashboard");
 });
 
 module.exports = router;
