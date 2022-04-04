@@ -43,7 +43,7 @@ passport.serializeUser(function(user, cb) {
    passport.use(new GoogleStrategy({
     clientID: '1016091856141-ogmillik21hdb1cpi5f06vg2rr3h4hmh.apps.googleusercontent.com',
     clientSecret: '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',
-    callbackURL: "http://149.165.154.175:30002/auth/google/callback"
+    callbackURL: "http://149.165.154.175.nip.io:30002/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
     // code to create a user in the database goes here
