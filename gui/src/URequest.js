@@ -6,7 +6,7 @@ function URequest() {
   document.title = "User History"
     useEffect(async () => {
 
-      var user_data_url = "http://localhost:3001/users/name";
+      var user_data_url = "http://localhost:30001/users/name";
       const queryString = window.location.search;
       const urlParams = new URLSearchParams(queryString);
       const name = urlParams.get("name");
