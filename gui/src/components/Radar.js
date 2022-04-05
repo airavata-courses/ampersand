@@ -8,7 +8,6 @@ function Radar(){
         <div>
             <center>
                 <div>
-                <h1>This is Radar Data</h1>
                     <RadarMap/>
                 </div>
             </center>

@@ -6,7 +6,7 @@ import Radar from './components/Radar';
 import Merra from './components/Merra';
 
 const tabs = {
-    firstTab: 'RADAR DATA',
+    firstTab: 'NEXRAD RADAR DATA',
     secondTab: 'MERRA DATA'
 }
 
