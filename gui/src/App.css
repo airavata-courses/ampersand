@@ -2,6 +2,10 @@
   text-align: center;
 }
 
+.hr {
+  width: 9px;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -35,4 +39,17 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.wrapper {
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  display:flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.custom-tab-container-class .tabs-body{
+  height: 100%;
 }

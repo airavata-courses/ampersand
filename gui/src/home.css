@@ -1,0 +1,31 @@
+.App {
+    text-align: center;
+  }
+  
+  .appAside {
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #0e154d;
+  }
+  
+  .appForm {
+    width: 50%;
+    height: 100%;
+    background-color: #12130f;
+    padding: 30px 40px;
+    overflow: hidden;
+  }
+  
+  .lotties {
+    display: grid;
+    grid-template-columns: auto;
+  }
+  
+  @media only screen and (min-width: 800px) {
+    .lotties {
+      display: grid;
+      grid-template-columns: auto auto;
+    }
+  }
+  

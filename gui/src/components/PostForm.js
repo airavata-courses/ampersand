@@ -104,7 +104,6 @@ function PostForm(){
     return (
         <div>
             <hr></hr>
-            <h1>WEATHER DASHBOARD</h1>
             <h2>Welcome <b onChange={(e) => handle(e)} id="username" value={name}>{name}</b></h2>
             <hr></hr>
             
