@@ -15,8 +15,8 @@ document.addEventListener('readystatechange', function() {
     // all of your map code here
 	mapboxgl.accessToken = 'pk.eyJ1IjoibmthbWJsZSIsImEiOiJjbDFsa2MxdmIwYmd1M3FyendscHEwemN1In0.IdIJN8xZHt4l3bsN0gxlMA';
     const map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/mapbox/light-v10',
+        container: 'map2',
+        style: 'mapbox://styles/mapbox/dark-v10',
         center: [-96, 37.8],
         zoom: 2
     });
@@ -121,15 +121,15 @@ function RadarMap(){
     const [startTime, setStartTime] = useState(null);
     const [endTime, setEndTime] = useState(null);
     
-    const handleCheckInDate = (date) => {
+    function handleCheckInDate(date){
         setCheckInDate(date);
-      };
+    }
 
-    const handleStartTime = (stime) => {
+    function handleStartTime(stime){
         setStartTime(stime);
       };
 
-    const handleEndTime = (etime) => {
+    function handleEndTime(etime){
         setEndTime(etime);
       };
 
@@ -145,16 +145,16 @@ function RadarMap(){
     var reqEndTimeMM = moment(endTime).format("mm")
     var reqEndTimeSS = moment(endTime).format("ss")
 
-    // console.log(reqDateYYYY, reqDateMM, reqDateDD)
-    // console.log(reqStartTimeHH, reqStartTimeMM, reqStartTimeSS)
-    // console.log(reqEndTimeHH, reqEndTimeMM, reqEndTimeSS)
+    console.log("Date",reqDateYYYY, reqDateMM, reqDateDD)
+    console.log("Start Time",reqStartTimeHH, reqStartTimeMM, reqStartTimeSS)
+    console.log("End Time",reqEndTimeHH, reqEndTimeMM, reqEndTimeSS)
 
     return(
         <div>
             <center>
                 <div>
                     <h3>Select Radar Station from the Map</h3>
-                    <div id="map"></div>
+                    <div id="map2"></div>
 
                     <br/><br/>
                     <div className="input-container">
@@ -163,7 +163,7 @@ function RadarMap(){
                         <DatePicker
                             selected={checkInDate}
                             maxDate={new Date()}
-                            onChange={handleCheckInDate}
+                            onChange={(e) => handleCheckInDate(e)}
                         />
                         <br/><br/>
                         <label>Select Time Range</label>
@@ -173,7 +173,7 @@ function RadarMap(){
                             placeholder="Select Start Time"
                             showSecond={true}
                             focusOnOpen={true}
-                            onChange={handleStartTime}
+                            onChange={(e) => handleStartTime(e)}
                         />
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <TimePicker
@@ -181,7 +181,7 @@ function RadarMap(){
                             placeholder="Select End Time"
                             focusOnOpen={true}
                             showSecond={true}
-                            onChange={handleEndTime}
+                            onChange={(e) => handleEndTime(e)}
                         />
                         </div>
                     </div>

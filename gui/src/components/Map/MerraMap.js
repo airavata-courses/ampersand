@@ -13,11 +13,11 @@ var Latitude = ""
 document.addEventListener('readystatechange', function() {
 
     // all of your map code here
-	mapboxgl.accessToken = 'pk.eyJ1IjoibmthbWJsZSIsImEiOiJjbDFsa2MxdmIwYmd1M3FyendscHEwemN1In0.IdIJN8xZHt4l3bsN0gxlMA';
+	mapboxgl.accessToken = 'pk.eyJ1IjoibmthbWJsZSIsImEiOiJjbDFtdDBnbHIwbnV0M2pvYmw2bzFucDltIn0.C6fDN9It7tXCMUr9AZjeJQ';
 
-    const coordinates = document.getElementById('coordinates');
+    // const coordinates = document.getElementById('coordinates');
     const map = new mapboxgl.Map({
-        container: 'map',
+        container: 'map1',
         style: 'mapbox://styles/mapbox/streets-v11',
         center: [0, 0],
         zoom: 2
@@ -57,7 +57,7 @@ function MerraMap(){
             <center>
                 <div>
                     <h3>Drag and Drop Pin on any location</h3>
-                    <div id="map2"></div>
+                    <div id="map1"></div>
                     <br/><br/>
                     <div className="input-container">
                         <div>
