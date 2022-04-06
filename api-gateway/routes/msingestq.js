@@ -14,39 +14,33 @@ const rabbitSettings = {
     authMechanism: ['PLAIN', 'AMQPLAIN', 'EXTERNAL']
 }
 
-router.post("/", async (req, response) => {
-    
+router.post('/', async (req, response) => {
+
     // connect();
     // async function connect(){
         
-        const QUEUE = 'R_PLOT_QUEUE'
+        const QUEUE = 'M_INGEST_QUEUE'
         
         // try{
-            // console.log("r1")
+            // console.log("s1")
             const conn = await amqp.connect(rabbitSettings);
-            // console.log("r2")
+            // console.log("s2")
             const channel = await conn.createChannel();
-            // console.log("r3")
+            // console.log("s3")
             const res = await channel.assertQueue(QUEUE);
-            
-            // console.log("r4")
-            channel.consume(QUEUE, message => {
-                let msg = JSON.parse(message.content.toString());
-                // console.log("r5")
-                channel.ack(message)
-                channel.close()
-                return response.status(201).json(msg);
-            })
-
-            
-    //     }
-    //     catch(err){
-    //         console.error(`Error -> ${err}`);
-    //     }
+            // console.log("s4")
+            let msg = JSON.stringify(req.body);
+            await channel.sendToQueue(QUEUE, Buffer.from(msg));
+            // console.log("s5")
+            return response.status(201).json({'message':'success'});
+        // }
+        // catch(err){
+        //     console.error(`Error -> ${err}`);
+        // }
     // }
-
     // // create connection
-    // amqp.connect('amqp://guest:guest@rabbitmq', (connError, connection) => {
+    // console.log("0xxxxxxxxxxxxxxxxx0")
+    // await amqp.connect(rabbitSettings, (connError, connection) => {
     //             if(connError){
     //                 throw connError;
     //             }
@@ -55,21 +49,18 @@ router.post("/", async (req, response) => {
     //                 if(channelError){
     //                     throw channelError;
     //                 }
+    //                 console.log("1xxxxxxxxxxxxxxxxx1")
                     
     //                 // assert queue
     //                 const QUEUE = 'INGEST_QUEUE'
     //                 channel.assertQueue(QUEUE);
                     
-    //                 // receive message queue
-    //                 channel.consume(QUEUE, (msg) => {
-    //                     console.log(`Message Received: ${msg.content}`)
-    //                     response.status(201).json(msg)
-    //                 }, {
-    //                     // after consuming the queue message, update the mq
-    //                     noAck: true
-    //                 })
+    //                 // send message queue
+    //                 channel.sendToQueue(QUEUE, Buffer.from(req));
+    //                 console.log(QUEUE, ": message sent ->", req);
+    //                 response.status(201).json({'message':'success'})
     //             })
     //         })
-    })
+})
 
 module.exports = router

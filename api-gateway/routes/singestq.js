@@ -19,7 +19,7 @@ router.post('/', async (req, response) => {
     // connect();
     // async function connect(){
         
-        const QUEUE = 'INGEST_QUEUE'
+        const QUEUE = 'R_INGEST_QUEUE'
         
         // try{
             // console.log("s1")

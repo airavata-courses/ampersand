@@ -97,9 +97,9 @@ function URequest() {
   return (
     <div className="App">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" />
-      <h1>USER REQUESTS HISTORY</h1>
+      <h1 style={{color:"whitesmoke"}}>USER REQUESTS HISTORY</h1>
       <hr/><br/><br/>
-      <table id="table" align="center" border="1px"></table>
+      <table id="table" align="center" border="1px" color="whitesmoke"  style={{color:"whitesmoke"}}></table>
     </div>
   );
 }

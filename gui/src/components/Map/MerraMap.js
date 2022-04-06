@@ -45,6 +45,7 @@ document.addEventListener('readystatechange', function() {
 
         // var url =  "https://api.mapbox.com/geocoding/v5/mapbox.places/"-73.989,40.733 + ".json?types=address&access_token=pk.eyJ1IjoibmthbWJsZSIsImEiOiJjbDFtdDBnbHIwbnV0M2pvYmw2bzFucDltIn0.C6fDN9It7tXCMUr9AZjeJQ"
         
+        alert("You have Selected ->", " Longitude:", Longitude, " Latitude:", Latitude)
         console.log(Longitude, Latitude)
     }
 
@@ -91,12 +92,12 @@ function MerraMap(){
             Latitude = "18.523211555360163"
         }
         
-        Axios.post("http://localhost:3001/users", {
+        Axios.post("http://localhost:3001/merra", {
             username: username,
             place: place,
-            Longitude: Longitude,
-            Latitude: Latitude
-            
+            longitude: Longitude,
+            latitude: Latitude,
+            yyyy: YYYY
         })
         .then(res =>{
             var cloud_image_url = res.data.cloud_image_url

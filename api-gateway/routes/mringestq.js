@@ -19,7 +19,7 @@ router.post("/", async (req, response) => {
     // connect();
     // async function connect(){
         
-        const QUEUE = 'R_PLOT_QUEUE'
+        const QUEUE = 'M_INGEST_QUEUE'
         
         // try{
             // console.log("r1")
@@ -33,13 +33,13 @@ router.post("/", async (req, response) => {
             channel.consume(QUEUE, message => {
                 let msg = JSON.parse(message.content.toString());
                 // console.log("r5")
-                channel.ack(message)
+                channel.ack(message);
                 channel.close()
+                // conn.close()
                 return response.status(201).json(msg);
             })
 
-            
-    //     }
+        // }
     //     catch(err){
     //         console.error(`Error -> ${err}`);
     //     }

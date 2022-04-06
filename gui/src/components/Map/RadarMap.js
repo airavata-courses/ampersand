@@ -153,7 +153,7 @@ document.addEventListener('readystatechange', function() {
     
         var feature = features[0];
         Radar_Station = feature.properties.id
-        
+        alert("You have Selected -> ", Radar_Station)
         console.log(Radar_Station)
     })
 
