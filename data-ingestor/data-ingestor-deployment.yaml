@@ -25,10 +25,12 @@ kind: Service
 metadata:
   name: data-ingestor
 spec:
+  type: NodePort
   ports:
   - name: data-ingestorports
     protocol: TCP
     port: 81
     targetPort: 81
+    nodePort: 30006
   selector:
     app: data-ingestor
