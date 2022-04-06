@@ -1,0 +1,23 @@
+body {
+  background-image: url('./bg3.png');
+  background-position: 100%;
+  background-attachment: fixed;
+  /* color: whitesmoke; */
+}
+    .card {
+        color: whitesmoke;
+        width: 450px;
+        height: 350px;
+        display: inline-block;
+        cursor: pointer;
+        overflow: hidden;
+    }
+  
+    .card img {
+        width: 100%;
+        transition: 0.6s all ease-in-out;
+    }
+  
+    .card:hover img {
+        transform: scale(1.5);
+    }

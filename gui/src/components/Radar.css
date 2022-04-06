@@ -2,6 +2,7 @@
     width: 800px;
     height: 400px;
     }
+    
     .input-container {
         display: flex;
         flex-direction: row;

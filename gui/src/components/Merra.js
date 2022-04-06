@@ -1,19 +1,30 @@
 import './Merra.css'
-import React, { useState } from 'react'
-// import Axios from 'axios'
-// import { useEffect } from 'react';
-// import axios from 'axios';
+import history from "./history.png";
+import React from 'react'
 import MerraMap from './Map/MerraMap';
 
 import {useTabs, withTabs} from "../context/TabsContext";
 import {Tabs, Tab} from "../components/Tabs";
 
-const tabs = {
-    firstTab: 'MERRA DATA'
+
+document.title = "Dashboard";
+
+const params = new URLSearchParams(window.location.search);
+var username = params.get("username");
+
+if(username == null){
+    username = 'guest'
 }
 
+const tabs = {
+    firstTab: 'WELCOME ' + username.toLocaleUpperCase()
+}
 function Merra(){
     const { setCurrentTab } = useTabs();
+    
+    function request(){
+        window.open( "/user/request" + "/?name=" + username);
+    }
 
     return(<div>
         <center>
@@ -21,7 +32,8 @@ function Merra(){
             <div className="wrapper">
                     <Tabs tabs={tabs} defaultTab={tabs.firstTab} onTabSelect={(tab) => setCurrentTab(tab)}  className="custom-tab-container-class">
                         <Tab id={tabs.firstTab}>
-                            <MerraMap/>
+                            <input type="image" src={history} style={{ height: "60px" , width: "60px", position:"absolute", right:"0", top:"15px", marginRight:"10px"}} onClick={request} />
+                        <MerraMap/>
                         </Tab>
                     </Tabs>
             </div>
