@@ -5,6 +5,7 @@ account-service/node_modules
 database/node_modules
 greetings-service/node_modules
 gui/node_modules
+node_modules
 /.pnp
 .pnp.js
 

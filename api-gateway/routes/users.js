@@ -1,31 +1,36 @@
+require('dotenv').config();
 const express = require('express')
 const router = express.Router()
 const User = require('../models/users')
 
+// mongoose (mongoDB) 
 const mongoose = require('mongoose')
 const { default: axios } = require('axios')
-mongoose.connect(process.env.DATABASE_URL)
+mongoose.connect(process.env.R_DATABASE_URL)
+mongoose.Promise = global.Promise
+
+// const amqp = require('amqplib/callback_api')
 
 // getting all users
 router.get('/', async (req, res) => {
     try{
         const users = await User.find()
-        res.json(users)
+        return res.json(users)
     } catch (err){
-        res.status(500).json({message: err.message})
+        return res.status(500).json({message: err.message})
     }
 })
 
 // getting one user using user id
 router.get('/:id', getUser, (req, res) => {
-    res.json(res.user)
+    return res.json(res.user)
 })
 
 // getting data using username
 router.post('/name', async (req, res) => {
     try{
         const docs = await User.find({ username:  req.body.username});
-        res.json(docs)
+        return res.json(docs)
     }
     catch(e){
         console.log(e.message)
@@ -54,12 +59,31 @@ router.post('/', async (req, res) => {
     try{
         const newUser = await users.save()
         // res.status(201).json(newUser)
-        const image_url = await axios({method:'post',url:'http://localhost:3001/plot', data: newUser})
-        // res.send("image_url")
-        // res.status(201).json({s: image_url.body.abc})
-        res.status(201).json({cloud_image_url: image_url.data.cloud_url, message: "All Services Worked"})
+        
+        // mq producer code (sending to ingest_queue)
+        const ingest_a = await axios({method:'post',url:'http://localhost:3001/singestq', data: newUser})
+        console.log("INGEST MQ (sent) ->", ingest_a.data)
+        
+        // mq consumer code (receiving from ingest_queue)
+        const ingest_b = await axios({method:'post',url:'http://localhost:3001/ringestq', data: 'something'})
+        console.log("INGEST MQ (received) ->", ingest_b.data)
+        
+        // sending the ingest queue data to next service
+        const image_url = await axios({method:'post',url:'http://localhost:3001/plot', data: ingest_b.data})
+        
+        // mq producer code (sending to plot_queue)
+        const plot_a = await axios({method:'post',url:'http://localhost:3001/splotq', data: image_url.data})
+        console.log("PLOT MQ (sent) ->", plot_a.data)
+
+        // mq consumer code (receiving from plot_queue)
+        const plot_b = await axios({method:'post',url:'http://localhost:3001/rplotq', data: 'something'})
+        console.log("PLOT MQ (received) ->", plot_b.data)
+
+        console.log("all services worked, sending cloud_url back to UI",plot_b.data)
+        return res.status(201).json({cloud_image_url: plot_b.data.cloud_url, message: "All Services Worked"})
     } catch (err) {
-        res.status(400).json({message: err.message})
+        console.log("error")
+        return res.status(400).json({message: err.message})
     }
 })
 
@@ -71,8 +95,8 @@ router.patch('/:id', async (req, res) => {
             aws_fname:  req.body.aws_fname,
             cloud_url:  req.body.cloud_url
         });
-        res.status(201).json({message: "Database Modified"})
-        console.log("modified")
+        return res.status(201).json({message: "Database Modified"})
+        // console.log("modified")
     }
     catch(e){
         console.log(e.message)
@@ -83,9 +107,9 @@ router.patch('/:id', async (req, res) => {
 router.delete('/:id', getUser, async (req, res) => {
     try{
         await res.user.remove()
-        res.json({message: "Deleted User Successfully"})
+        return res.json({message: "Deleted User Successfully"})
     }catch (err){
-        res.status(500).json({message: err.message})
+        return res.status(500).json({message: err.message})
     }
 })
 

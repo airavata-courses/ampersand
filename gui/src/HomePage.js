@@ -1,27 +1,53 @@
-import './App.css'
-import logo from './logo.svg'
-import React from 'react'
-const axios = require('axios')
+import React, { Component } from "react";
+import UncontrolledLottiie from "./UncontrolledLottiie";
+import {
+  GoogleLoginButton
+} from "react-social-login-buttons";
+import "./home.css";
 
-function App() {
-  document.title = "Login Page";
+class App extends Component {
   
-  // gateway call for authentication
-  axios.get('http://localhost:3001/auth')
-  .then(res => {
-    console.log(res);
-    const google_url = (res.data.url)
-    document.getElementById("loc").href = google_url;
-  });
+    render() {
+      
+    document.title = "Login Page"
+    
+    function go(){
+      var name = document.getElementById("username").value;
+      name = name.replace(" ", "")
+      window.open( "/choice" + "/?username=" + name, "_self");
+    }
 
-    return( 
-      <div className='App'>
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-            <a id="loc" href="">Sign in with Google</a>
-        </header>
-      </div>
+    return (
+      // <Router>
+        <div className="App" style={{height: "100vh", display: "flex", color: "white"}}>
+          <div className="appAside">
+            <div className="lottiie">
+              <UncontrolledLottiie />
+            </div>
+          </div>
+          <div className="appForm">
+            <center>
+
+              <div class="login">
+              <div class="form">
+              <h1 style={ {marginTop:"5%"}}>Ampersand</h1>
+
+              <h3 style={ {marginTop:"5%", fontStyle:"italic", paddingBottom:"15%"}}>- experience weather with us -</h3>
+                <input id="username" name="username" type="text" placeholder="Username"/>
+                {/* <!-- <input type="password" placeholder="Password"> */}
+                <input type="submit" value="Sign In as Guest" class="submit" onClick={go}/><br/><br/><br/>
+                <span>---------------or---------------</span>
+                <div style={ {marginTop:"10%", width:"250px", paddingBottom:"5%"}}>
+                <a id="loc" href=""><GoogleLoginButton/></a>
+              </div>
+              </div>
+              </div>
+            </center>
+
+          </div>
+        </div>
     );
+  }
 }
 
 export default App;

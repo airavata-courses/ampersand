@@ -31,8 +31,8 @@ function URequest() {
         var head = ["Time Stamp", "Radar Station", "Year", "Month", "Day", "STIME-HOUR", "STIME-MIN", "STIME-SEC", "ETIME-HOUR", "ETIME-MIN", "ETIME-SEC", "IMAGE-URL"];
         var cols = [];
 			
-        for (var i = 0; i < list.length; i++) {
-          for (var k in list[i]) {
+        for (var j = 0; j < list.length; j++) {
+          for (var k in list[j]) {
             if (cols.indexOf(k) === -1) {
               
               // Push all keys to the array
@@ -47,33 +47,33 @@ function URequest() {
         // Create table row tr element of a table
         var tr = table.insertRow(-1);
 
-        for (var i = 0; i < cols.length; i++) {
+        for (var q = 0; q < cols.length; q++) {
 				
           // Create the table header "th" element
           var theader = document.createElement("th");
-          theader.innerHTML = head[i];
+          theader.innerHTML = head[q];
           
           // Append columnName to the table row
           tr.appendChild(theader);
 			  }
         
 			  // Adding the data to the table
-			  for (var i = 0; i < list.length; i++) {
+			  for (var c = 0; c < list.length; c++) {
 
           // Create a new row
           var trow = table.insertRow(-1);
-          for (var j = 0; j < cols.length; j++) {
+          for (var d = 0; d < cols.length; d++) {
             var cell = trow.insertCell(-1);
             
 
             // Inserting the cell at particular place
-            cell.innerHTML = list[i][cols[j]];
+            cell.innerHTML = list[c][cols[d]];
 
-            if(j==cols.length-1){
+            if(d === cols.length-1){
 
-              console.log(list[i][cols[j]])
+              console.log(list[c][cols[d]])
 
-              var link = list[i][cols[j]]
+              var link = list[c][cols[d]]
               var newA = document.createElement('a')
               newA.setAttribute('href',link)
               newA.innerHTML = '&#8599'
@@ -97,9 +97,9 @@ function URequest() {
   return (
     <div className="App">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" />
-      <h1>USER REQUESTS HISTORY</h1>
+      <h1 style={{color:"whitesmoke"}}>USER REQUESTS HISTORY</h1>
       <hr/><br/><br/>
-      <table id="table" align="center" border="1px"></table>
+      <table id="table" align="center" border="1px" color="whitesmoke"  style={{color:"whitesmoke"}}></table>
     </div>
   );
 }
