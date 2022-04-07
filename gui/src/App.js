@@ -6,6 +6,7 @@ import Radar from "./components/Radar"
 import Merra from "./components/Merra"
 import Choice from "./choice"
 import UReq from "./URequest"
+import MUReq from "./MURequest"
 import './App.css';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
                 <Route exact path="/merra" element={<Merra/>} />
                 <Route exact path="/choice" element={<Choice/>} />
                 <Route exact path="/user/request" element={<UReq/>} />
+                <Route exact path="/user/mrequest" element={<MUReq/>} />
             </Routes>
       </div>
   );

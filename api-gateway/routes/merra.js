@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express')
 const router = express.Router()
 const User = require('../models/merra')
@@ -5,7 +6,8 @@ const User = require('../models/merra')
 // mongoose (mongoDB) 
 const mongoose = require('mongoose')
 const { default: axios } = require('axios')
-mongoose.connect(process.env.M_DATABASE_URL)
+// console.log(process.env.R_DATABASE_URL)
+mongoose.connect(process.env.R_DATABASE_URL)
 mongoose.Promise = global.Promise
 
 // const amqp = require('amqplib/callback_api')
@@ -60,6 +62,7 @@ router.post('/', async (req, res) => {
         
         // sending the ingest queue data to next service
         const image_url = await axios({method:'post',url:'http://localhost:3001/mplot', data: ingest_x.data})
+        console.log(image_url.data)
         
         // mq producer code (sending to plot_queue)
         const plot_y = await axios({method:'post',url:'http://localhost:3001/msplotq', data: image_url.data})
@@ -73,7 +76,7 @@ router.post('/', async (req, res) => {
         return res.status(201).json({cloud_image_url: plot_z.data.cloud_url, message: "All Services Worked"})
     } catch (err) {
         console.log("error")
-        return res.status(400).json({message: err.message})
+        // return res.status(400).json({message: err.message})
     }
 })
 

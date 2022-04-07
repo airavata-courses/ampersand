@@ -64,13 +64,13 @@ function MerraMap(){
     console.log(YYYY)
 
     function hover_down(){
-        let e = document.getElementById("graph_image")
-        e.scrollIntoView({
-            block: 'end',
-            behavior: 'smooth',
-            inline: 'center'
-          });
-        window.open("#graph_image", "_self")
+        // let e = document.getElementById("graph_image")
+        // e.scrollIntoView({
+        //     block: 'end',
+        //     behavior: 'smooth',
+        //     inline: 'center'
+        //   });
+        // window.open("#graph_image", "_self")
         submit()
     }
 
@@ -103,7 +103,7 @@ function MerraMap(){
             var cloud_image_url = res.data.cloud_image_url
             console.log(res.data)
             // console.log(res.data.message, cloud_image_url)
-            document.getElementById("graph_image").src = cloud_image_url
+            // document.getElementById("graph_image").src = cloud_image_url
             // document.getElementById("user_form").reset()
         })
 
@@ -132,10 +132,10 @@ function MerraMap(){
                     </div>
                     <br/><br/>
                     <input style={{ height: "40px" , width: "350px" }} placeholder="submit" name="submit" id="submit" type="submit" value="CREATE GRAPH" onClick={hover_down}/>
-                    <br/><br/><br/><br/><br/><hr/><br/><br/><br/>
+                    {/* <br/><br/><br/><br/><br/><hr/><br/><br/><br/>
                     
                     <h3  style={{color:"whitesmoke"}}>Your Results will be displayed over here</h3>
-                    <img id="graph_image" src="" style={{height: "500px" , width: "600px"}}/>
+                    <img id="graph_image" src="" style={{height: "500px" , width: "600px"}}/> */}
                 </div>
             </center>
         </div>

@@ -6,7 +6,7 @@ const port = 3001
 const mongoose = require('mongoose')
 const { expressCspHeader, INLINE, NONE, SELF } = require('express-csp-header');
 
-mongoose.connect(process.env.DATABASE_URL)
+mongoose.connect(process.env.R_DATABASE_URL)
 const db = mongoose.connection
 const cors = require('cors')
 db.on('error', (error) => console.error(error))
@@ -22,7 +22,7 @@ app.use('/users', radar_usersRouter_db)
 
 // for merra database
 const merra_usersRouter_db = require('./routes/merra')
-app.use('./merra', merra_usersRouter_db)
+app.use('/merra', merra_usersRouter_db)
 
 // for greetme request
 const usersRouter_greetme = require('./routes/greetme')
