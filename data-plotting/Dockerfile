@@ -8,19 +8,19 @@ WORKDIR /code
 COPY ./requirements.txt /code/requirements.txt
 
 #
-RUN pip install numpy
+RUN pip3 install numpy
 
 #
-RUN pip install netCDF4
+RUN pip3 install netCDF4
 
 #
-RUN pip install scipy
+RUN pip3 install scipy
 
 #
-RUN pip install arm-pyart
+RUN pip3 install arm-pyart
 
 # 
-RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+RUN pip3 install --no-cache-dir --upgrade -r /code/requirements.txt
 
 # 
 COPY ./app /code/app
