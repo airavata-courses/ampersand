@@ -32,7 +32,7 @@ flatbuffers==2.0
 fonttools==4.29.0
 fsspec==2022.2.0
 gast==0.4.0
-geos==3.7.2
+geos==0.2.3
 google-auth==2.3.3
 google-auth-oauthlib==0.4.6
 google-pasta==0.2.0
