@@ -70,7 +70,7 @@ Pillow==8.4.0
 pipdeptree==2.2.1
 pipreqs==0.4.11
 pooch==1.5.2
-proj==0.2.0
+proj==8.0.0
 protobuf==3.19.1
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
