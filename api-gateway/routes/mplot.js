@@ -8,6 +8,9 @@ var py_url = "http://data-ingestor:81/satellite/"
 
 router.post("/", async (req, response) => {
 
+    console.log("fir ek baar")
+    req.setTimeout(20*60*1000);
+
     // var nexrad_aws_url = ""
     // var aws_f_name = ""
     var cloud_image_url = ""
@@ -33,31 +36,31 @@ router.post("/", async (req, response) => {
 
     // data ingestor API call request
     try{
-    Axios.get(py_url+rem_url, {headers:{
-        "authorization" : 'token' , 'Access-Control-Allow-Origin': "*"
-
-    }})
-    .then(res => {
-            cloud_image_url = res.data.cloud_plot_url
-            // console.log(cloud_image_url)
-            console.log("Plotting Service Success")
-
-            // modifying the database with new results
-             Axios.patch(patch_url, {
-                id: ses_id,
-                cloud_url: cloud_image_url
-            })
-            .then(res =>{
-                // console.log(res.data)
-                console.log("Database Updated with new values for request ->", ses_id)
-
-                // sending the cloud image url to the user
-                return response.status(201).json({cloud_url: cloud_image_url})
-            })
+        const final1 = await Axios.get(py_url+rem_url, {headers:{
+            "authorization" : 'token' , 'Access-Control-Allow-Origin': "*"
+        }})
+        
+        cloud_image_url = final1.data.cloud_plot_url
+        // console.log(cloud_image_url)
+        console.log("Plotting Service Success")
+    
+        // modifying the database with new results
+        const final2 = await Axios.patch(patch_url, {
+            id: ses_id,
+            cloud_url: cloud_image_url
         })
+        
+        console.log("Database Updated with new values for request ->", ses_id)
+    
+        // sending the cloud image url to the user
+        return response.status(201).json({cloud_url: cloud_image_url})
+            //     })
+            //     .catch(err =>{console.log("some error 1", err)})
+            // })
+            // .catch(err =>{console.log("some error 2", err)})
     }
     catch(err){
-        console.log(err);
+        console.log("some error mplot mein ",err);
     }
 })
 

@@ -3,17 +3,19 @@ import {React, useEffect} from 'react';
 import axios from 'axios';
 
 function URequest() {
+  var usernamed = ""
   document.title = "User History"
     useEffect(async () => {
 
       var user_data_url = "http://localhost:3001/merra/name";
       const queryString = window.location.search;
       const urlParams = new URLSearchParams(queryString);
-      const name = urlParams.get("name");
-      console.log(name);
+      const uname = urlParams.get("username");
+      usernamed = uname
+      console.log(uname);
       
       axios.post(user_data_url, {
-         username: name 
+         username: uname 
       })
       .then(res =>{
         var list = res.data;
@@ -22,14 +24,13 @@ function URequest() {
         for (var i = 0; i < list.length; i++) {
           delete list[i].username
           delete list[i]._id
-          delete list[i].aws_fname
-          delete list[i].aws_url
           delete list[i].__v
+          delete list[i].place
         }
 
         console.log(list)
         // var head = ["Time Stamp", "Radar Station", "Year", "Month", "Day", "STIME-HOUR", "STIME-MIN", "STIME-SEC", "ETIME-HOUR", "ETIME-MIN", "ETIME-SEC", "IMAGE-URL"];
-        var head = ["Time Stamp", "Radar Station", "Year", "Month", "Day", "STIME-HOUR", "STIME-MIN", "STIME-SEC", "ETIME-HOUR", "ETIME-MIN", "ETIME-SEC", "IMAGE-URL"];
+        var head = ["Time Stamp", "Year", "Longitude", "Latitude", "IMAGE-URL"];
         var cols = [];
 			
         for (var j = 0; j < list.length; j++) {
@@ -98,7 +99,7 @@ function URequest() {
   return (
     <div className="App">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" />
-      <h1 style={{color:"whitesmoke"}}>USER REQUESTS HISTORY</h1>
+      <h1 style={{color:"whitesmoke"}}> USER REQUEST HISTORY FOR {usernamed}</h1>
       <hr/><br/><br/>
       <table id="table" align="center" border="1px" color="whitesmoke"  style={{color:"whitesmoke"}}></table>
     </div>

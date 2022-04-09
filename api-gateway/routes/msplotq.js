@@ -32,7 +32,7 @@ router.post('/', async (req, response) => {
             let msg = JSON.stringify(req.body);
             // console.log("string",msg)
             await channel.sendToQueue(QUEUE, Buffer.from(msg));
-            response.status(201).json({'message':'success'});
+            return response.status(201).json({'message':'success'});
         // }
         // catch(err){
         //     console.error(`Error -> ${err}`);
