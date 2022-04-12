@@ -5,7 +5,7 @@ import DatePicker from "react-datepicker";
 import moment from "moment";
 import "react-datepicker/dist/react-datepicker.css";
 import '../Merra.css';
-import Axios from 'axios'
+import Axios from 'axios';
 
 var YYYY = ""
 var place = "Home"
@@ -45,7 +45,7 @@ document.addEventListener('readystatechange', function() {
 
         // var url =  "https://api.mapbox.com/geocoding/v5/mapbox.places/"-73.989,40.733 + ".json?types=address&access_token=pk.eyJ1IjoibmthbWJsZSIsImEiOiJjbDFtdDBnbHIwbnV0M2pvYmw2bzFucDltIn0.C6fDN9It7tXCMUr9AZjeJQ"
         
-        alert("You have Selected ->", " Longitude:", Longitude, " Latitude:", Latitude)
+        alert("You have Selected ->" + " Longitude:" + Longitude + " Latitude:" + Latitude)
         console.log(Longitude, Latitude)
     }
 
@@ -64,13 +64,13 @@ function MerraMap(){
     console.log(YYYY)
 
     function hover_down(){
-        // let e = document.getElementById("graph_image")
-        // e.scrollIntoView({
-        //     block: 'end',
-        //     behavior: 'smooth',
-        //     inline: 'center'
-        //   });
-        // window.open("#graph_image", "_self")
+        let e = document.getElementById("graph_image")
+        e.scrollIntoView({
+            block: 'end',
+            behavior: 'smooth',
+            inline: 'center'
+          });
+        window.open("#graph_image", "_self")
         submit()
     }
 
@@ -98,16 +98,17 @@ function MerraMap(){
             longitude: Longitude,
             latitude: Latitude,
             yyyy: YYYY
-        })
+        // })
+        }, {headers:{"keepalive": "true", "timeout": "5*60*1000"}})
         .then(res =>{
-            var cloud_image_url = res.data.cloud_image_url
+            var cloud_image_url = res.data.cloud_url
             console.log(res.data)
             // console.log(res.data.message, cloud_image_url)
-            // document.getElementById("graph_image").src = cloud_image_url
+            document.getElementById("graph_image").src = cloud_image_url
             // document.getElementById("user_form").reset()
         })
 
-        alert("Your Request is in Process. Please wait for a few seconds.")
+        alert("Your Request is in Process. Please wait for a few minutes.")
     }
 
     return(
@@ -132,10 +133,10 @@ function MerraMap(){
                     </div>
                     <br/><br/>
                     <input style={{ height: "40px" , width: "350px" }} placeholder="submit" name="submit" id="submit" type="submit" value="CREATE GRAPH" onClick={hover_down}/>
-                    {/* <br/><br/><br/><br/><br/><hr/><br/><br/><br/>
+                    <br/><br/><br/><br/><br/><hr/><br/><br/><br/>
                     
                     <h3  style={{color:"whitesmoke"}}>Your Results will be displayed over here</h3>
-                    <img id="graph_image" src="" style={{height: "500px" , width: "600px"}}/> */}
+                    <img id="graph_image" src="" style={{height: "500px" , width: "600px"}}/>
                 </div>
             </center>
         </div>

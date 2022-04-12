@@ -23,8 +23,8 @@ function Merra(){
     const { setCurrentTab } = useTabs();
     
     function request(){
-        // window.open( "/user/mrequest" + "/?name=" + username);
-        window.open("http://localhost:3001/merra")
+        window.open( "/user/mrequest" + "/?username=" + username);
+        // window.open("http://localhost:3001/merra")
     }
 
     return(<div>
