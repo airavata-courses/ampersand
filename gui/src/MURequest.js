@@ -1,13 +1,14 @@
 import './App.css';
 import {React, useEffect} from 'react';
 import axios from 'axios';
+const host_url = require("./Utilities.js")
 
 function URequest() {
   var usernamed = ""
   document.title = "User History"
     useEffect(async () => {
 
-      var user_data_url = "http://localhost:3001/merra/name";
+      var user_data_url = host_url.host_url+ ":30001/merra/name";
       const queryString = window.location.search;
       const urlParams = new URLSearchParams(queryString);
       const uname = urlParams.get("username");

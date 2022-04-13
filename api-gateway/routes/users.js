@@ -10,6 +10,7 @@ mongoose.connect(process.env.R_DATABASE_URL)
 mongoose.Promise = global.Promise
 
 // const amqp = require('amqplib/callback_api')
+const host_url = require('../Utilities.js');
 
 // getting all users
 router.get('/', async (req, res) => {
@@ -61,29 +62,40 @@ router.post('/', async (req, res) => {
         // res.status(201).json(newUser)
         
         // mq producer code (sending to ingest_queue)
-        const ingest_a = await axios({method:'post',url:'http://localhost:3001/singestq', data: newUser})
+        const aurl = host_url.host_url+":3001/singestq"
+        console.log(aurl)
+        const ingest_a = await axios({method:'post',url: aurl, data: newUser})
         console.log("INGEST MQ (sent) ->", ingest_a.data)
         
         // mq consumer code (receiving from ingest_queue)
-        const ingest_b = await axios({method:'post',url:'http://localhost:3001/ringestq', data: 'something'})
+        const burl = host_url.host_url+":3001/ringestq"
+        console.log(burl)
+        const ingest_b = await axios({method:'post',url: burl, data: 'something'})
         console.log("INGEST MQ (received) ->", ingest_b.data)
         
         // sending the ingest queue data to next service
-        const image_url = await axios({method:'post',url:'http://localhost:3001/plot', data: ingest_b.data})
+        const curl = host_url.host_url+":3001/plot"
+        // const curl = "http://api-gateway:3001/plot"
+        console.log(curl)
+        const image_url = await axios({method:'post',url: curl, data: newUser})
         
         // mq producer code (sending to plot_queue)
-        const plot_a = await axios({method:'post',url:'http://localhost:3001/splotq', data: image_url.data})
+        const durl = host_url.host_url+":3001/splotq"
+        console.log(durl)
+        const plot_a = await axios({method:'post',url: durl, data: image_url.data})
         console.log("PLOT MQ (sent) ->", plot_a.data)
 
         // mq consumer code (receiving from plot_queue)
-        const plot_b = await axios({method:'post',url:'http://localhost:3001/rplotq', data: 'something'})
+        const eurl = host_url.host_url+":3001/rplotq"
+        console.log(eurl)
+        const plot_b = await axios({method:'post',url: eurl, data: 'something'})
         console.log("PLOT MQ (received) ->", plot_b.data)
 
         console.log("all services worked, sending cloud_url back to UI",plot_b.data)
         return res.status(201).json({cloud_image_url: plot_b.data.cloud_url, message: "All Services Worked"})
     } catch (err) {
-        console.log("error")
-        return res.status(400).json({message: err.message})
+        console.log("uerror", err)
+        // return res.status(400).json({message: err.message})
     }
 })
 

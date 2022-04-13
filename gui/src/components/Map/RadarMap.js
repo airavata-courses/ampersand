@@ -9,6 +9,8 @@ import moment from "moment";
 import "react-datepicker/dist/react-datepicker.css";
 import Axios from 'axios'
 
+const host_url = require("./Utilities.js")
+
 document.title = "Dashboard";
 
 const params = new URLSearchParams(window.location.search);
@@ -206,26 +208,33 @@ function RadarMap(){
         console.log("Start Time",reqStartTimeHH, reqStartTimeMM, reqStartTimeSS)
         console.log("End Time",reqEndTimeHH, reqEndTimeMM, reqEndTimeSS)
 
-        Axios.post("http://localhost:3001/users", {
-            username: username,
-            reqRadar: Radar_Station,
-            reqDateYYYY: reqDateYYYY, 
-            reqDateMM: reqDateMM,
-            reqDateDD: reqDateDD,
-            reqStartTimeHH: reqStartTimeHH,
-            reqStartTimeMM: reqStartTimeMM,
-            reqStartTimeSS: reqStartTimeSS,
-            reqEndTimeHH: reqEndTimeHH,
-            reqEndTimeMM: reqEndTimeMM,
-            reqEndTimeSS: reqEndTimeSS
-        })
-        .then(res =>{
-            var cloud_image_url = res.data.cloud_image_url
-            console.log(res.data)
-            // console.log(res.data.message, cloud_image_url)
-            document.getElementById("graph_image").src = cloud_image_url
-            // document.getElementById("user_form").reset()
-        })
+        try{
+            console.log("try ke andar");
+            
+            Axios.post(host_url.host_url + ":30001/users", {
+                username: username,
+                reqRadar: Radar_Station,
+                reqDateYYYY: reqDateYYYY, 
+                reqDateMM: reqDateMM,
+                reqDateDD: reqDateDD,
+                reqStartTimeHH: reqStartTimeHH,
+                reqStartTimeMM: reqStartTimeMM,
+                reqStartTimeSS: reqStartTimeSS,
+                reqEndTimeHH: reqEndTimeHH,
+                reqEndTimeMM: reqEndTimeMM,
+                reqEndTimeSS: reqEndTimeSS
+            })
+            .then(res =>{
+                var cloud_image_url = res.data.cloud_image_url
+                console.log(res.data)
+                // console.log(res.data.message, cloud_image_url)
+                document.getElementById("graph_image").src = cloud_image_url
+                // document.getElementById("user_form").reset()
+            })
+        }
+        catch(error){
+            console.log("GUI Error -> ", error);
+        }
 
         alert("Your Request is in Process. Please wait for a few seconds.")
 

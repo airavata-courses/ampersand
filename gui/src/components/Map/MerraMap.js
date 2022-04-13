@@ -6,6 +6,7 @@ import moment from "moment";
 import "react-datepicker/dist/react-datepicker.css";
 import '../Merra.css';
 import Axios from 'axios';
+const host_url = require("./Utilities.js")
 
 var YYYY = ""
 var place = "Home"
@@ -92,7 +93,7 @@ function MerraMap(){
             Latitude = "18.523211555360163"
         }
         
-        Axios.post("http://localhost:3001/merra", {
+        Axios.post(host_url.host_url+ ":30001/merra", {
             username: username,
             place: place,
             longitude: Longitude,

@@ -6,6 +6,8 @@ import RadarMap from './Map/RadarMap'
 import {useTabs, withTabs} from "../context/TabsContext";
 import {Tabs, Tab} from "../components/Tabs";
 
+const host_url = require("../Utilities.js")
+
 document.title = "Dashboard";
 
 const params = new URLSearchParams(window.location.search);
@@ -23,7 +25,7 @@ function Radar(){
     const { setCurrentTab } = useTabs();
     
     function request(){
-        window.open( "/user/request" + "/?name=" + username);
+        window.open( host_url.host_url+ ":30000/user/request" + "/?name=" + username);
     }
 
     return(

@@ -4,6 +4,8 @@ import {
   GoogleLoginButton
 } from "react-social-login-buttons";
 import "./home.css";
+const axios = require('axios')
+const host_url = require('./Utilities.js')
 
 class App extends Component {
   
@@ -14,8 +16,19 @@ class App extends Component {
     function go(){
       var name = document.getElementById("username").value;
       name = name.replace(" ", "")
-      window.open( "/choice" + "/?username=" + name, "_self");
+      window.open("/choice" + "/?username=" + name, "_self");
     }
+
+    console.log(host_url.host_url+":30001/auth")
+    console.log(host_url)
+  
+    // gateway call for authentication
+    axios.get(host_url.host_url+":30001/auth")
+    .then(res => {
+      console.log(res);
+      const google_url = (res.data.url)
+      document.getElementById("loc").href = google_url;
+    });
 
     return (
       // <Router>

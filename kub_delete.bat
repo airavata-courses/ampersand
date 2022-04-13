@@ -26,4 +26,11 @@ cd gui
 kubectl delete -f ./gui-deployment.yaml
 cd..
 
-docker compose down
+docker rmi -f account-service
+docker rmi -f api-gateway
+docker rmi -f mongo
+docker rmi -f rabbitmq
+docker rmi -f data-ingestor
+docker rmi -f data-plotting
+docker rmi -f greetings-service
+docker rmi -f gui

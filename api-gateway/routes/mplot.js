@@ -2,7 +2,9 @@ const express = require('express')
 const router = express.Router()
 const Axios = require('axios')
 
-var users_url = "http://localhost:3001/merra"
+const host_url = require('../Utilities.js');
+
+var users_url = host_url.host_url+":3001/merra"
 
 var py_url = "http://data-ingestor:81/satellite/"
 
@@ -36,7 +38,7 @@ router.post("/", async (req, response) => {
 
     // data ingestor API call request
     try{
-        const final1 = await Axios.get(py_url+rem_url, {headers:{
+        const final1 = await Axios.get(py_url+rem_url, {data:"something"}, {headers:{
             "authorization" : 'token' , 'Access-Control-Allow-Origin': "*"
         }})
         

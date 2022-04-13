@@ -3,18 +3,20 @@ import Axios from 'axios'
 import { useEffect } from 'react';
 import axios from 'axios';
 
+const host_url = require('../Utilities.js');
+
 // global scope :: radar data
-// var radar_data = ""
+var radar_data = ""
 
 function PostForm(){
     document.title = "Dashboard";
-    // var r_radar = ""
+    var r_radar = ""
 
-    const [name, setName] = useState('');
+    const [name, setName] = useState('Guest User!!');
 
     useEffect(async () => {
         // gateway call for username
-        const greet_url = await axios.get('http://localhost:30001/greetme');
+        const greet_url = await axios.get(host_url.host_url+":30001/greetme");
         const result = await axios.get(greet_url.data.url, {
             withCredentials: true
       });
@@ -36,36 +38,36 @@ function PostForm(){
         reqEndTimeSS: ""
     })
 
-    // function rad(){
-    //     if((document.getElementById("reqRadar").value) !== ""){
-    //         r_radar = document.getElementById("reqRadar").value
+    function rad(){
+        if((document.getElementById("reqRadar").value) !== ""){
+            r_radar = document.getElementById("reqRadar").value
 
-    //         // console.log(r_radar)
+            // console.log(r_radar)
 
-    //         // radar station name microservice via gateway
-    //         axios.post("http://localhost:30001/radar", {
-    //             rradar: r_radar
-    //         })
-    //         .then(res =>{
-    //             // console.log("sab", r_radar)
-    //             radar_data = res.data.rad
-    //             // console.log("adhi",radar_data)
-    //         })
-    //     }
-    // }
+            // radar station name microservice via gateway
+            axios.post(host_url.host_url+"30001/radar", {
+                rradar: r_radar
+            })
+            .then(res =>{
+                // console.log("sab", r_radar)
+                radar_data = res.data.rad
+                // console.log("adhi",radar_data)
+            })
+        }
+    }
 
     function submit(e){
         e.preventDefault();
         
-        // if(radar_data === ""){
-        //     radar_data = "KBMX"
-        // }
+        if(radar_data === ""){
+            radar_data = "KBMX"
+        }
 
-        // console.log("nantar",radar_data)
+        console.log("nantar",radar_data)
         
-        Axios.post("http://localhost:3001/users", {
+        Axios.post(host_url.host_url+":30001/users", {
             username: name,
-            reqRadar: data.reqRadar,
+            reqRadar: radar_data,
             reqDateYYYY: data.reqDateYYYY, 
             reqDateMM: data.reqDateMM,
             reqDateDD: data.reqDateDD,
@@ -104,11 +106,12 @@ function PostForm(){
     return (
         <div>
             <hr></hr>
+            <h1>WEATHER DASHBOARD</h1>
             <h2>Welcome <b onChange={(e) => handle(e)} id="username" value={name}>{name}</b></h2>
             <hr></hr>
             
             <button style={{ height: "40px" , width: "200px", position:"absolute", right:"0", marginRight:"300px"}} onClick={request}>USER HISTORY</button>
-            <a href='http://localhost:30000'><button style={{ height: "40px" , width: "200px", position:"absolute", right:"0", marginRight:"20px"}}>LOGOUT</button></a>
+            <a href='http://149.165.154.175:30000'><button style={{ height: "40px" , width: "200px", position:"absolute", right:"0", marginRight:"20px"}}>LOGOUT</button></a>
             
             <br/><br/><br/><br/>
 
@@ -117,303 +120,299 @@ function PostForm(){
             <form onSubmit={(e)=> submit(e)} style={{position:"absolute", left:"0", marginLeft:"100px"}} id={"user_form"}>
                     {/* <input style={{ height: "40px" , width: "200px" }} onChange={(e) => handle(e)} id="username" value={data.username} type="text" id="username" placeholder="username" name="username" required /> */}
                     <h2>Select Radars by State</h2>
-                    <select style={{ height: "40px" , width: "200px" }} onChange={(e) => handle(e)} id="reqRadar" value={data.reqRadar}  type="text" placeholder="reqRadar" name="reqRadar" required>
-                    <option value="">Radars by State</option>
-                    <option value=""></option>
+                    <select style={{ height: "40px" , width: "200px" }} onChange={(e) => handle(e)} onClick={rad} id="reqRadar" value={data.reqRadar}  type="text" id="reqRadar" placeholder="reqRadar" name="reqRadar" required>
+                        <option value="">Radars by State</option>
+                        <option value=""></option>
                             <option value="">--Alabama</option>
-                            <option value="KBMX">Birmingham</option>
-                            <option value="KMXX">E. Alabama</option>
-                            <option value="KEOX">Fort Rucker</option>
-                            <option value="KMOB">Mobile</option>
-                            <option value="KHTX">Nrn. Alabama</option>
-                    <option value=""></option>
+                                <option value="Birmingham">Birmingham</option>
+                                <option value="E. Alabama">E. Alabama</option>
+                                <option value="Fort Rucker">Fort Rucker</option>
+                                <option value="Mobile">Mobile</option>
+                                <option value="Nrn. Alabama">Nrn. Alabama</option>
+                        <option value=""></option>
                             <option value="">--Alaska</option>
-                            <option value="PABC">Bethel</option>
-                            <option value="PACG">Biorka Is.</option>
-                            <option value="PAPD">Fairbanks</option>
-                            <option value="PAHG">Kenai</option>
-                            <option value="PAKC">King Salmon</option>
-                            <option value="PAIH">Middleton Is.</option>
-                            <option value="PAEC">Nome</option>
-                            <option value="PAPD">Pedro Dome</option>
-                            <option value="PACG">Sitka</option>
-                    <option value=""></option>
+                                <option value="Bethel">Bethel</option>
+                                <option value="Biorka Is.">Biorka Is.</option>
+                                <option value="Fairbanks">Fairbanks</option>
+                                <option value="Kenai">Kenai</option>
+                                <option value="King Salmon">King Salmon</option>
+                                <option value="Middleton Is.">Middleton Is.</option>
+                                <option value="Nome">Nome</option>
+                                <option value="Pedro Dome">Pedro Dome</option>
+                                <option value="Sitka">Sitka</option>
+                        <option value=""></option>
                             <option value="">--Arizona</option>
-                            <option value="KFSX">Flagstaff</option>
-                            <option value="KIWA">Phoenix</option>
-                            <option value="KEMX">Tucson</option>
-                            <option value="KYUX">Yuma</option>
-                    <option value=""></option>
+                                <option value="Flagstaff">Flagstaff</option>
+                                <option value="Phoenix">Phoenix</option>
+                                <option value="Tucson">Tucson</option>
+                                <option value="Yuma">Yuma</option>
+                        <option value=""></option>
                             <option value="">--Arkansas</option>
-                        <option value="KLZK">Little Rock</option>
-                        <option value="KSRX">W. Ark./Ft. Smith</option>
-                    <option value=""></option>
+                                <option value="Little Rock">Little Rock</option>
+                                <option value="W. Ark./Ft. Smith">W. Ark./Ft. Smith</option>
+                        <option value=""></option>
                             <option value="">--California</option>
-                            <option value="KBBX">Beale AFB</option>
-                            <option value="KEYX">Edwards AFB</option>
-                            <option value="KBHX">Eureka</option>
-                            <option value="KHNX">Hanford</option>
-                            <option value="KVTX">Los Angeles</option>
-                            <option value="KDAX">Sacramento</option>
-                            <option value="KNKX">San Diego</option>
-                            <option value="KMUX">San Francisco</option>
-                            <option value="KHNX">San Joaquin Vly.</option>
-                            <option value="KSOX">Santa Ana Mtns</option>
-                            <option value="KVBX">Vandenberg AFB</option>
-                    <option value=""></option>
+                                <option value="Beale AFB">Beale AFB</option>
+                                <option value="Edwards AFB">Edwards AFB</option>
+                                <option value="Eureka">Eureka</option>
+                                <option value="Hanford">Hanford</option>
+                                <option value="Los Angeles">Los Angeles</option>
+                                <option value="Sacramento">Sacramento</option>
+                                <option value="San Diego">San Diego</option>
+                                <option value="San Francisco">San Francisco</option>
+                                <option value="San Joaquin Vly.">San Joaquin Vly.</option>
+                                <option value="Santa Ana Mtns">Santa Ana Mtns</option>
+                                <option value="Vandenberg AFB">Vandenberg AFB</option>
+                        <option value=""></option>
                             <option value="">--Colorado</option>
-                            <option value="KFTG">Denver/Boulder</option>
-                            <option value="KGJX">Grand Junction</option>
-                            <option value="KPUX">Pueblo</option>
-                    <option value=""></option>
+                                <option value="Denver/Boulder">Denver/Boulder</option>
+                                <option value="Grand Junction">Grand Junction</option>
+                                <option value="Pueblo">Pueblo</option>
+                        <option value=""></option>
                             <option value="">--Delaware</option>
-                            <option value="KDOX">Dover AFB</option>
-                    <option value=""></option>
+                                <option value="Dover AFB">Dover AFB</option>
+                        <option value=""></option>
                             <option value="">--Florida</option>
-                            <option value="KEVX">Eglin AFB</option>
-                            <option value="KJAX">Jacksonville</option>
-                            <option value="KBYX">Key West</option>
-                            <option value="KMLB">Melbourne</option>
-                            <option value="KAMX">Miami</option>
-                            <option value="KEVX">NW Florida</option>
-                            <option value="KTLH">Tallahassee</option>
-                            <option value="KTBW">Tampa Bay Area</option>
-                    <option value=""></option>
-                        <option value="">--Georgia</option>
-                            <option value="KFFC">Atlanta</option>
-                            <option value="KVAX">Moody AFB</option>
-                            <option value="KFFC">Peachtree City</option>
-                            <option value="KJGX">Robins AFB</option>
-                    <option value=""></option>
-                        <option value="">--Guam</option>
-                            <option value="PGUA">Andersen AFB</option>
-                    <option value=""></option>
-                        <option value="">--Hawaii</option>
-                            <option value="PHKI">Kauai</option>
-                            <option value="PHKM">Kohala</option>
-                            <option value="PHMO">Molokai</option>
-                            <option value="PHWA">South Shore</option>
-                    <option value=""></option>
-                        <option value="">--Idaho</option>
-                            <option value="KCBX">Boise</option>
-                            <option value="KSFX">Pocatello</option>
-                    <option value=""></option>
-                        <option value="">--Illinois</option>
-                            <option value="KILX">Central IL</option>
-                            <option value="KLOT">Chicago</option>
-                    <option value=""></option>
-                        <option value="">--Indiana</option>
-                            <option value="KVWX">Evansville</option>
-                            <option value="KIND">Indianapolis</option>
-                            <option value="KIWX">Nrn. Indiana</option>
-                    <option value=""></option>
-                        <option value="">--Iowa</option>
-                            <option value="KDMX">Des Moines</option>
-                            <option value="KDVN">Quad Cities</option>
-                    <option value=""></option>
-                        <option value="">--Kansas</option>
-                            <option value="KDDC">Dodge City</option>
-                            <option value="KGLD">Goodland</option>
-                            <option value="KTWX">Topeka</option>
-                            <option value="KICT">Wichita</option>
-                    <option value=""></option>
-                        <option value="">--Kentucky</option>
-                            <option value="KHPX">Fort Cambell</option>
-                            <option value="KJKL">Jackson</option>
-                            <option value="KLVX">Louisville</option>
-                            <option value="KPAH">Paducah</option>
-                            <option value=""></option>
-                        <option value="">--Louisiana</option>
-                            <option value="KPOE">Fort Polk</option>
-                            <option value="KLCH">Lake Charles</option>
-                            <option value="KLIX">New Orleans</option>
-                            <option value="KSHV">Shreveport</option>
-                    <option value=""></option>
-                        <option value="">--Maine</option>
-                            <option value="KCBW">Caribou</option>
-                            <option value="KGYX">Portland</option>
-                    <option value=""></option>
-                        <option value="">--Maryland</option>
-                            <option value="KLWX">Baltimore</option>
-                    <option value=""></option>
-                        <option value="">--Massachusetts</option>
-                            <option value="KBOX">Boston</option>
-                    <option value=""></option>
-                        <option value="">--Michigan</option>
-                            <option value="KDTX">Detroit</option>
-                            <option value="KAPX">Gaylord</option>
-                            <option value="KGRR">Grand Rapids</option>
-                            <option value="KMQT">Marquette</option>
-                    <option value=""></option>
-                        <option value="">--Minnesota</option>
-                            <option value="KDLH">Duluth</option>
-                            <option value="KMPX">Minneapolis</option>
-                    <option value=""></option>
-                        <option value="">--Mississippi</option>
-                            <option value="KGWX">Columbus AFB</option>
-                            <option value="KDGX">Brandon/Jackson</option>
-                    <option value=""></option>
-                        <option value="">--Missouri</option>
-                            <option value="KEAX">Kansas City</option>
-                            <option value="KSGF">Springfield</option>
-                            <option value="KLSX">St. Louis</option>
-                    <option value=""></option>
-                        <option value="">--Montana</option>
-                            <option value="KBLX">Billings</option>
-                            <option value="KGGW">Glasgow</option>
-                            <option value="KTFX">Great Falls</option>
-                            <option value="KMSX">Missoula</option>
-                    <option value=""></option>
-                        <option value="">--Nebraska</option>
-                            <option value="KUEX">Hastings</option>
-                            <option value="KLNX">North Platte</option>
-                            <option value="KOAX">Omaha</option>
-                    <option value=""></option>
-                        <option value="">--Nevada</option>
-                            <option value="KLRX">Elko</option>
-                            <option value="KESX">Las Vegas</option>
-                            <option value="KRGX">Reno</option>
-                    <option value=""></option>
-                        <option value="">--New Jersey</option>
-                            <option value="KDIX">Mt. Holly</option>
-                    <option value=""></option>
-                        <option value="">--New Mexico</option>
-                            <option value="KABX">Albuquerque</option>
-                            <option value="KFDX">Cannon AFB</option>
-                            <option value="KHDX">Holloman AFB</option>
-                    <option value=""></option>
-                        <option value="">--New York</option>
-                            <option value="KENX">Albany</option>
-                            <option value="KBGM">Binghamton</option>
-                            <option value="KBUF">Buffalo</option>
-                            <option value="KTYX">Montague</option>
-                            <option value="KOKX">New York City</option>
-                            <option value="KOKX">Upton</option>
-                    <option value=""></option>
-                        <option value="">--North Carolina</option>
-                            <option value="KRAX">Durham</option>
-                            <option value="KMHX">Morehead City</option>
-                            <option value="KRAX">Raleigh</option>
-                            <option value="KLTX">Wilmington</option>
-                    <option value=""></option>
-                        <option value="">--North Dakota</option>
-                            <option value="KBIS">Bismarck</option>
-                            <option value="KMVX">Grand Forks</option>
-                            <option value="KMBX">Minot AFB</option>
-                    <option value=""></option>
-                        <option value="">--Ohio</option>
-                            <option value="KILN">Cincinnati</option>
-                            <option value="KCLE">Cleveland</option>
-                            <option value="KILN">Dayton</option>
-                            <option value="KILN">Wilmington</option>
-                    <option value=""></option>
-                        <option value="">--Oklahoma</option>
-                            <option value="KFDR">Frederick</option>
-                            <option value="KTLX">Oklahoma City</option>
-                            <option value="KINX">Tulsa</option>
-                            <option value="KVNX">Vance AFB</option>
-                    <option value=""></option>
-                        <option value="">--Oregon</option>
-                            <option value="KMAX">Medford</option>
-                            <option value="KPDT">Pendleton</option>
-                            <option value="KRTX">Portland</option>
-                    <option value=""></option>
-                        <option value="">--Pennsylvania</option>
-                            <option value="KDIX">Philadelphia</option>
-                            <option value="KPBZ">Pittsburgh</option>
-                            <option value="KCCX">State College</option>
-                    <option value=""></option>
-                        <option value="">--Puerto Rico</option>
-                            <option value="TJUA">Puerto Rico/V.I.</option>
-                    <option value=""></option>
-                        <option value="">--South Carolina</option>
-                            <option value="KCLX">Charleston</option>
-                            <option value="KCAE">Columbia</option>
-                            <option value="KGSP">Greenville</option>
-                            <option value="KGSP">Spartanburg</option>
-                            <option value="KGSP">Greer</option>
-                    <option value=""></option>
-                        <option value="">--South Dakota</option>
-                            <option value="KABR">Aberdeen</option>
-                            <option value="KUDX">Rapid City</option>
-                            <option value="KFSD">Sioux falls</option>
-                    <option value=""></option>
-                        <option value="">--Tennessee</option>
-                            <option value="KMRX">Knoxville</option>
-                            <option value="KNQA">Memphis</option>
-                            <option value="KMRX">Morristown</option>
-                            <option value="KOHX">Nashville</option>
-                            <option value="KMRX">Tri Cities</option>
-                    <option value=""></option>
-                        <option value="">--Texas</option>
-                            <option value="KAMA">Amarillo</option>
-                            <option value="KEWX">Austin</option>
-                            <option value="KBRO">Brownsville</option>
-                            <option value="KGRK">Central Texas</option>
-                            <option value="KCRP">Corpus Christi</option>
-                            <option value="KFWS">Dallas</option>
-                            <option value="KDYX">Dyess AFB</option>
-                            <option value="KEPZ">El Paso</option>
-                            <option value="KFWS">Fort Worth</option>
-                            <option value="KHGX">Galveston</option>
-                            <option value="KHGX">Houston</option>
-                            <option value="KDFX">Laughlin AFB</option>
-                            <option value="KLBB">Lubbock</option>
-                            <option value="KMAF">Midland/Odessa</option>
-                            <option value="KSJT">San Angelo</option>
-                            <option value="KEWX">San Antonio</option>
-                    <option value=""></option>
-                        <option value="">--Utah</option>
-                            <option value="KICX">Cedar City</option>
-                            <option value="KMTX">Salt Lake City</option>
-                    <option value=""></option>
-                        <option value="">--Vermont</option>
-                            <option value="KCXX">Burlington</option>
-                    <option value=""></option>
-                        <option value="">--Virginia</option>
-                            <option value="KFCX">Blacksburg</option>
-                            <option value="KAKQ">Norfolk</option>
-                            <option value="KAKQ">Richmond</option>
-                            <option value="KFCX">Roanoke</option>
-                            <option value="KLWX">Sterling</option>
-                            <option value="KAKQ">Wakefield</option>
-                    
-                    <option value=""></option>
-                        <option value="">--Washington</option>
-                            <option value="KATX">Seattle</option>
-                            <option value="KOTX">Spokane</option>
-                            <option value="KATX">Tacoma</option>
-                            <option value="KLGX">Langley Hill</option>
-                    
-                    <option value=""></option>
-                        <option value="">--Washington DC</option>
-                            <option value="KLWX">Washington</option>
-                    
-                    <option value=""></option>
-                        <option value="">--West Virginia</option>
-                            <option value="KRLX">Charleston</option>
-                    
-                    <option value=""></option>
-                        <option value="">--Wisconsin</option>
-                            <option value="KGRB">Green Bay</option>
-                            <option value="KARX">La Crosse</option>
-                            <option value="KMKX">Milwaukee</option>
-                    
-                    <option value=""></option>
-                        <option value="">--Wyoming</option>
-                            <option value="KCYS">Cheyenne</option>
-                            <option value="KRIW">Riverton</option>
-                    
-                    <option value=""></option>
-                        <option value="">--South Korea	</option>
-                    
-                    <option value="RKJK">Kunsan</option>
-                    <option value="RKSG">Camp Humphreys</option>
-                    <option value=""></option>
+                                <option value="Eglin AFB">Eglin AFB</option>
+                                <option value="Jacksonville">Jacksonville</option>
+                                <option value="Key West">Key West</option>
+                                <option value="Melbourne">Melbourne</option>
+                                <option value="Miami">Miami</option>
+                                <option value="NW Florida">NW Florida</option>
+                                <option value="Tallahassee">Tallahassee</option>
+                                <option value="Tampa Bay Area">Tampa Bay Area</option>
+                        <option value=""></option>
+                            <option value="">--Georgia</option>
+                                <option value="Atlanta">Atlanta</option>
+                                <option value="Moody AFB">Moody AFB</option>
+                                <option value="Peachtree City">Peachtree City</option>
+                                <option value="Robins AFB">Robins AFB</option>
+                        <option value=""></option>
+                            <option value="">--Guam</option>
+                                <option value="Andersen AFB">Andersen AFB</option>
+                        <option value=""></option>
+                            <option value="">--Hawaii</option>
+                                <option value="Kauai">Kauai</option>
+                                <option value="Kohala">Kohala</option>
+                                <option value="Molokai">Molokai</option>
+                                <option value="South Shore">South Shore</option>
+                        <option value=""></option>
+                            <option value="">--Idaho</option>
+                                <option value="Boise">Boise</option>
+                                <option value="Pocatello">Pocatello</option>
+                        <option value=""></option>
+                            <option value="">--Illinois</option>
+                                <option value="Central IL">Central IL</option>
+                                <option value="Chicago">Chicago</option>
+                        <option value=""></option>
+                            <option value="">--Indiana</option>
+                                <option value="Evansville">Evansville</option>
+                                <option value="Indianapolis">Indianapolis</option>
+                                <option value="Nrn. Indiana">Nrn. Indiana</option>
+                        <option value=""></option>
+                            <option value="">--Iowa</option>
+                                <option value="Des Moines">Des Moines</option>
+                                <option value="Quad Cities">Quad Cities</option>
+                        <option value=""></option>
+                            <option value="">--Kansas</option>
+                                <option value="Dodge City">Dodge City</option>
+                                <option value="Goodland">Goodland</option>
+                                <option value="Topeka">Topeka</option>
+                                <option value="Wichita">Wichita</option>
+                        <option value=""></option>
+                            <option value="">--Kentucky</option>
+                                <option value="Fort Cambell">Fort Cambell</option>
+                                <option value="Jackson">Jackson</option>
+                                <option value="Louisville">Louisville</option>
+                                <option value="Paducah">Paducah</option>
+                                <option value=""></option>
+                            <option value="">--Louisiana</option>
+                                <option value="Fort Polk">Fort Polk</option>
+                                <option value="Lake Charles">Lake Charles</option>
+                                <option value="New Orleans">New Orleans</option>
+                                <option value="Shreveport">Shreveport</option>
+                        <option value=""></option>
+                            <option value="">--Maine</option>
+                                <option value="Caribou">Caribou</option>
+                                <option value="Portland">Portland</option>
+                        <option value=""></option>
+                            <option value="">--Maryland</option>
+                                <option value="Baltimore">Baltimore</option>
+                        <option value=""></option>
+                            <option value="">--Massachusetts</option>
+                                <option value="Boston">Boston</option>
+                        <option value=""></option>
+                            <option value="">--Michigan</option>
+                                <option value="Detroit">Detroit</option>
+                                <option value="Gaylord">Gaylord</option>
+                                <option value="Grand Rapids">Grand Rapids</option>
+                                <option value="Marquette">Marquette</option>
+                        <option value=""></option>
+                            <option value="">--Minnesota</option>
+                                <option value="Duluth">Duluth</option>
+                                <option value="Minneapolis">Minneapolis</option>
+                        <option value=""></option>
+                            <option value="">--Mississippi</option>
+                                <option value="Columbus AFB">Columbus AFB</option>
+                                <option value="Brandon/Jackson">Brandon/Jackson</option>
+                        <option value=""></option>
+                            <option value="">--Missouri</option>
+                                <option value="Kansas City">Kansas City</option>
+                                <option value="Springfield">Springfield</option>
+                                <option value="St. Louis">St. Louis</option>
+                        <option value=""></option>
+                            <option value="">--Montana</option>
+                                <option value="Billings">Billings</option>
+                                <option value="Glasgow">Glasgow</option>
+                                <option value="Great Falls">Great Falls</option>
+                                <option value="Missoula">Missoula</option>
+                        <option value=""></option>
+                            <option value="">--Nebraska</option>
+                                <option value="Hastings">Hastings</option>
+                                <option value="North Platte">North Platte</option>
+                                <option value="Omaha">Omaha</option>
+                        <option value=""></option>
+                            <option value="">--Nevada</option>
+                                <option value="Elko">Elko</option>
+                                <option value="Las Vegas">Las Vegas</option>
+                                <option value="Reno">Reno</option>
+                        <option value=""></option>
+                            <option value="">--New Jersey</option>
+                                <option value="Mt. Holly">Mt. Holly</option>
+                        <option value=""></option>
+                            <option value="">--New Mexico</option>
+                                <option value="Albuquerque">Albuquerque</option>
+                                <option value="Cannon AFB">Cannon AFB</option>
+                                <option value="Holloman AFB">Holloman AFB</option>
+                        <option value=""></option>
+                            <option value="">--New York</option>
+                                <option value="Albany">Albany</option>
+                                <option value="Binghamton">Binghamton</option>
+                                <option value="Buffalo">Buffalo</option>
+                                <option value="Montague">Montague</option>
+                                <option value="New York City">New York City</option>
+                                <option value="Upton">Upton</option>
+                        <option value=""></option>
+                            <option value="">--North Carolina</option>
+                                <option value="Durham">Durham</option>
+                                <option value="Morehead City">Morehead City</option>
+                                <option value="Raleigh">Raleigh</option>
+                                <option value="Wilmington">Wilmington</option>
+                        <option value=""></option>
+                            <option value="">--North Dakota</option>
+                                <option value="Bismarck">Bismarck</option>
+                                <option value="Grand Forks">Grand Forks</option>
+                                <option value="Minot AFB">Minot AFB</option>
+                        <option value=""></option>
+                            <option value="">--Ohio</option>
+                                <option value="Cincinnati">Cincinnati</option>
+                                <option value="Cleveland">Cleveland</option>
+                                <option value="Dayton">Dayton</option>
+                                <option value="Wilmington">Wilmington</option>
+                        <option value=""></option>
+                            <option value="">--Oklahoma</option>
+                                <option value="Frederick">Frederick</option>
+                                <option value="Oklahoma City">Oklahoma City</option>
+                                <option value="Tulsa">Tulsa</option>
+                                <option value="Vance AFB">Vance AFB</option>
+                        <option value=""></option>
+                            <option value="">--Oregon</option>
+                                <option value="Medford">Medford</option>
+                                <option value="Pendleton">Pendleton</option>
+                                <option value="Portland">Portland</option>
+                        <option value=""></option>
+                            <option value="">--Pennsylvania</option>
+                                <option value="Philadelphia">Philadelphia</option>
+                                <option value="Pittsburgh">Pittsburgh</option>
+                                <option value="State College">State College</option>
+                        <option value=""></option>
+                            <option value="">--Puerto Rico</option>
+                                <option value="Puerto Rico/V.I.">Puerto Rico/V.I.</option>
+                        <option value=""></option>
+                            <option value="">--South Carolina</option>
+                                <option value="Charleston">Charleston</option>
+                                <option value="Columbia">Columbia</option>
+                                <option value="Greenville">Greenville</option>
+                                <option value="Spartanburg">Spartanburg</option>
+                                <option value="Greer">Greer</option>
+                        <option value=""></option>
+                            <option value="">--South Dakota</option>
+                                <option value="Aberdeen">Aberdeen</option>
+                                <option value="Rapid City">Rapid City</option>
+                                <option value="Sioux falls">Sioux falls</option>
+                        <option value=""></option>
+                            <option value="">--Tennessee</option>
+                                <option value="Knoxville">Knoxville</option>
+                                <option value="Memphis">Memphis</option>
+                                <option value="Morristown">Morristown</option>
+                                <option value="Nashville">Nashville</option>
+                                <option value="Tri Cities">Tri Cities</option>
+                        <option value=""></option>
+                            <option value="">--Texas</option>
+                                <option value="Amarillo">Amarillo</option>
+                                <option value="Austin">Austin</option>
+                                <option value="Brownsville">Brownsville</option>
+                                <option value="Central Texas">Central Texas</option>
+                                <option value="Corpus Christi">Corpus Christi</option>
+                                <option value="Dallas">Dallas</option>
+                                <option value="Dyess AFB">Dyess AFB</option>
+                                <option value="El Paso">El Paso</option>
+                                <option value="Fort Worth">Fort Worth</option>
+                                <option value="Galveston">Galveston</option>
+                                <option value="Houston">Houston</option>
+                                <option value="Laughlin AFB">Laughlin AFB</option>
+                                <option value="Lubbock">Lubbock</option>
+                                <option value="Midland/Odessa">Midland/Odessa</option>
+                                <option value="San Angelo">San Angelo</option>
+                                <option value="San Antonio">San Antonio</option>
+                        <option value=""></option>
+                            <option value="">--Utah</option>
+                                <option value="Cedar City">Cedar City</option>
+                                <option value="Salt Lake City">Salt Lake City</option>
+                        <option value=""></option>
+                            <option value="">--Vermont</option>
+                                <option value="Burlington">Burlington</option>
+                        <option value=""></option>
+                            <option value="">--Virginia</option>
+                                <option value="Blacksburg">Blacksburg</option>
+                                <option value="Norfolk">Norfolk</option>
+                                <option value="Richmond">Richmond</option>
+                                <option value="Roanoke">Roanoke</option>
+                                <option value="Sterling">Sterling</option>
+                                <option value="Wakefield">Wakefield</option>
+                        <option value=""></option>
+                            <option value="">--Washington</option>
+                                <option value="Seattle">Seattle</option>
+                                <option value="Spokane">Spokane</option>
+                                <option value="Tacoma">Tacoma</option>
+                                <option value="Langley Hill">Langley Hill</option>
+                        <option value=""></option>
+                            <option value="">--Washington DC</option>
+                                <option value="Washington">Washington</option>
+                        <option value=""></option>
+                            <option value="">--West Virginia</option>
+                                <option value="Charleston">Charleston</option>
+                        <option value=""></option>
+                            <option value="">--Wisconsin</option>
+                                <option value="Green Bay">Green Bay</option>
+                                <option value="La Crosse">La Crosse</option>
+                                <option value="Milwaukee">Milwaukee</option>
+                        <option value=""></option>
+                            <option value="">--Wyoming</option>
+                                <option value="Cheyenne">Cheyenne</option>
+                                <option value="Riverton">Riverton</option>
+                        
+                        
+                        <option value=""></option>
+                            <option value="">--South Korea	</option>
+                        
+                        <option value="Kunsan">Kunsan</option>
+                        <option value="Camp Humphrey">Camp Humphreys</option>
+                        <option value=""></option>
                     </select>
 
                     <h2>Select Date</h2>
-                    <select style={{ height: "40px" , width: "50px" }} onChange={(e) => handle(e)} id="reqDateMM" value={data.reqDateMM} type="text" placeholder="reqDateMM" name="reqDateMM" required> 
+                    <select style={{ height: "40px" , width: "50px" }} onChange={(e) => handle(e)} id="reqDateMM" value={data.reqDateMM} type="text" placeholder="reqDateMM" id="reqDateMM" name="reqDateMM" required> 
                         <option hidden> MM </option> 
                             <option value="01" > 01 </option> 
                             <option value="02" > 02 </option> 
@@ -429,7 +428,7 @@ function PostForm(){
                             <option value="12" > 12 </option> 
                     </select> &nbsp;&nbsp;&nbsp;
 
-                    <select style={{ height: "40px" , width: "50px" }} onChange={(e) => handle(e)} id="reqDateDD" value={data.reqDateDD} type="text" placeholder="reqDateDD" name="reqDateDD" required> 
+                    <select style={{ height: "40px" , width: "50px" }} onChange={(e) => handle(e)} id="reqDateDD" value={data.reqDateDD} type="text" placeholder="reqDateDD" id="reqDateDD" name="reqDateDD" required> 
                         <option hidden> DD </option> 
                             <option value="01" > 01 </option> 
                             <option value="02" > 02 </option> 
@@ -464,7 +463,7 @@ function PostForm(){
                             <option value="31" > 31 </option> 
                     </select> &nbsp;&nbsp;&nbsp;
 
-                    <select style={{ height: "40px" , width: "70px" }} onChange={(e) => handle(e)} id="reqDateYYYY" value={data.reqDateYYYY} type="text" placeholder="reqDateYYYY" name="reqDateYYYY" required> 
+                    <select style={{ height: "40px" , width: "70px" }} onChange={(e) => handle(e)} id="reqDateYYYY" value={data.reqDateYYYY} type="text" id="reqDateYYYY" placeholder="reqDateYYYY" name="reqDateYYYY" required> 
                         <option hidden> YYYY </option> 
 {/*<option value="1993" > 1993 </option> 
                             <option value="1994" > 1994 </option> 
@@ -499,7 +498,7 @@ function PostForm(){
                     </select>
 
                     <h2>Select Start Time</h2>
-                    <select style={{ height: "40px" , width: "50px" }} onChange={(e) => handle(e)} id="reqStartTimeHH" value={data.reqStartTimeHH} type="text" placeholder="reqStartTimeHH" name="reqStartTimeHH" required> 
+                    <select style={{ height: "40px" , width: "50px" }} onChange={(e) => handle(e)} id="reqStartTimeHH" value={data.reqStartTimeHH} type="text" placeholder="reqStartTimeHH" id="reqStartTimeHH" name="reqStartTimeHH" required> 
                         <option hidden> HH </option> 
                             <option value="00" > 00 </option> 
                             <option value="01" > 01 </option> 
@@ -527,7 +526,7 @@ function PostForm(){
                             <option value="23" > 23 </option> 
                     </select>&nbsp;&nbsp;&nbsp;
                     
-                    <select style={{ height: "40px" , width: "50px" }} onChange={(e) => handle(e)} id="reqStartTimeMM" value={data.reqStartTimeMM} type="text" placeholder="reqStartTimeMM" name="reqStartTimeMM" required> 
+                    <select style={{ height: "40px" , width: "50px" }} onChange={(e) => handle(e)} id="reqStartTimeMM" value={data.reqStartTimeMM} type="text" id="reqStartTimeMM" placeholder="reqStartTimeMM" name="reqStartTimeMM" required> 
                         <option hidden> MM </option> 
                             <option value="00">00</option>
                             <option value="01">01</option>
@@ -591,7 +590,7 @@ function PostForm(){
                             <option value="59">59</option> 
                     </select>&nbsp;&nbsp;&nbsp;
 
-                    <select style={{ height: "40px" , width: "50px" }} onChange={(e) => handle(e)} id="reqStartTimeSS" value={data.reqStartTimeSS} type="text" placeholder="reqStartTimeSS" name="reqStartTimeSS" required> 
+                    <select style={{ height: "40px" , width: "50px" }} onChange={(e) => handle(e)} id="reqStartTimeSS" value={data.reqStartTimeSS} type="text" id="reqStartTimeSS" placeholder="reqStartTimeSS" name="reqStartTimeSS" required> 
                         <option hidden> SS </option> 
                         <option value="00">00</option>
                         <option value="01">01</option>
@@ -656,7 +655,7 @@ function PostForm(){
                     </select>
 
                     <h2>Select End Time</h2>
-                    <select style={{ height: "40px" , width: "50px" }} onChange={(e) => handle(e)} id="reqEndTimeHH" value={data.reqEndTimeHH}  type="text" placeholder="reqEndTimeHH" name="reqEndTimeHH" required> 
+                    <select style={{ height: "40px" , width: "50px" }} onChange={(e) => handle(e)} id="reqEndTimeHH" value={data.reqEndTimeHH}  type="text" id="reqEndTimeHH" placeholder="reqEndTimeHH" name="reqEndTimeHH" required> 
                         <option hidden> HH </option> 
                             <option value="00" > 00 </option> 
                             <option value="01" > 01 </option> 
@@ -684,7 +683,7 @@ function PostForm(){
                             <option value="23" > 23 </option> 
                     </select>&nbsp;&nbsp;&nbsp;
                     
-                    <select style={{ height: "40px" , width: "50px" }} onChange={(e) => handle(e)} id="reqEndTimeMM" value={data.reqEndTimeMM}  type="text" placeholder="reqEndTimeMM" name="reqEndTimeMM" required> 
+                    <select style={{ height: "40px" , width: "50px" }} onChange={(e) => handle(e)} id="reqEndTimeMM" value={data.reqEndTimeMM}  type="text" id="reqEndTimeMM" placeholder="reqEndTimeMM" name="reqEndTimeMM" required> 
                         <option hidden> MM </option> 
                             <option value="00">00</option>
                             <option value="01">01</option>
@@ -748,7 +747,7 @@ function PostForm(){
                             <option value="59">59</option> 
                     </select>&nbsp;&nbsp;&nbsp;
 
-                    <select style={{ height: "40px" , width: "50px" }} onChange={(e) => handle(e)} id="reqEndTimeSS" value={data.reqEndTimeSS}  type="text" placeholder="reqEndTimeSS" name="reqEndTimeSS" required> 
+                    <select style={{ height: "40px" , width: "50px" }} onChange={(e) => handle(e)} id="reqEndTimeSS" value={data.reqEndTimeSS}  type="text" placeholder="reqEndTimeSS" id="reqEndTimeSS" name="reqEndTimeSS" required> 
                         <option hidden> SS </option> 
                         <option value="00">00</option>
                         <option value="01">01</option>

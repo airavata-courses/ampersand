@@ -1,3 +1,5 @@
+docker compose build
+
 cd account-service
 kubectl apply -f ./account-service-deployment.yaml
 cd..
@@ -25,5 +27,3 @@ cd..
 cd gui
 kubectl apply -f ./gui-deployment.yaml
 cd..
-
-docker compose up

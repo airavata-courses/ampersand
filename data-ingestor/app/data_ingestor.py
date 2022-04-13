@@ -41,7 +41,6 @@ async def getSatellite(year, location, latitude, longitude):
     plot_url = upload_plot(location+year)
     return {"cloud_plot_url": plot_url["secure_url"]}
 
-
 def upload_plot(file_name):
     cloudinary.config( 
     cloud_name = "airavata-ampersand", 

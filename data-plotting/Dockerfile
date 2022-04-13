@@ -1,5 +1,5 @@
 # 
-FROM python:3.9.10
+FROM python:3.8
 
 # 
 WORKDIR /code
@@ -15,9 +15,6 @@ RUN pip install netCDF4
 
 #
 RUN pip install scipy
-
-#
-RUN pip install arm-pyart
 
 # 
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt

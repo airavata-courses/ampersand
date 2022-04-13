@@ -89,7 +89,6 @@ services:
 
 networks:
   ampersand-network:
-    name: ampersand-network
     driver: bridge
 volumes:
   mongo-data:

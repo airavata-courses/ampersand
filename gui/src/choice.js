@@ -8,14 +8,9 @@ import './choice.css';
 import {useTabs, withTabs} from "./context/TabsContext";
 import {Tabs, Tab} from "./components/Tabs";
 
-const name = ""
+const host_url = require('./Utilities.js')
 
-const params = new URLSearchParams(window.location.search);
-var username = params.get("username");
-
-if(username == null){
-    username = 'guest'
-}
+var username = "guest"
 
 const tabs = {
     firstTab: 'WELCOME ' + username.toLocaleUpperCase()
@@ -23,26 +18,39 @@ const tabs = {
 
 function nexrad(){
     
-    window.open( "/radar" + "/?username=" + username, "_self");
+    window.open(host_url.host_url+ ":30000/radar" + "/?username=" + username, "_self");
 }
 
 function merra(){
-    window.open( "/merra" + "/?username=" + username, "_self");
+    window.open( host_url.host_url+ ":30000/merra" + "/?username=" + username, "_self");
 }
 function App() {
 
     useEffect(async () => {
         // gateway call for username
-        const greet_url = await axios.get('http://localhost:30001/greetme');
+        const greet_url = await axios.get(host_url.host_url+ ":30001/greetme");
         const result = await axios.get(greet_url.data.url, {
             withCredentials: true
       });
       const aname = (result.data.fullName).replace(" ", "")
-      name = aname;
-
-      if(name != null){
-        username = name;
+      console.log(aname)
+      if(aname != null || aname != ""){
+        username = aname;
       }
+      else{
+        const params = new URLSearchParams(window.location.search);
+        username = params.get("username");
+        
+        if(username == null || username == ""){
+            username = 'guest'
+        }
+
+        tabs = {
+            firstTab: 'WELCOME ' + username.toLocaleUpperCase()
+        }
+
+      }
+
     });
 
     const { setCurrentTab } = useTabs();

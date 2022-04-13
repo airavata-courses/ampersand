@@ -6,6 +6,7 @@ import MerraMap from './Map/MerraMap';
 import {useTabs, withTabs} from "../context/TabsContext";
 import {Tabs, Tab} from "../components/Tabs";
 
+const host_url = require("../Utilities.js")
 
 document.title = "Dashboard";
 
@@ -23,8 +24,8 @@ function Merra(){
     const { setCurrentTab } = useTabs();
     
     function request(){
-        window.open( "/user/mrequest" + "/?username=" + username);
-        // window.open("http://localhost:3001/merra")
+        window.open( host_url.host_url+ ":30000/user/mrequest" + "/?username=" + username);
+        // window.open(host_url.host_url+ ":30001/merra")
     }
 
     return(<div>

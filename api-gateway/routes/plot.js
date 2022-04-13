@@ -2,11 +2,14 @@ const express = require('express')
 const router = express.Router()
 const Axios = require('axios')
 
-var users_url = "http://localhost:3001/users"
+const host_url = require('../Utilities.js');
+
+var users_url = host_url.host_url+":3001/users"
 var py_url = "http://data-ingestor:81/fileurl/"
 var pl_url = "http://data-plotting:82/plot/"
 
 router.post("/", async (req, response) => {
+    console.log("rpplott")
 
     var nexrad_aws_url = ""
     var aws_f_name = ""
@@ -42,44 +45,41 @@ router.post("/", async (req, response) => {
 
     // data ingestor API call request
     try{
-    Axios.get(py_url+rem_url, {headers:{
-        "authorization" : 'token' , 'Access-Control-Allow-Origin': "*"
-
-    }})
-    .then(res => {
-        nexrad_aws_url = res.data.url
-        aws_f_name = res.data.file_name
+        const final1 = await Axios.get(py_url+rem_url, {data: "something"},{headers:{
+            "authorization" : 'token' , 'Access-Control-Allow-Origin': "*"
+        }})
+        
+        nexrad_aws_url = final1.data.url
+        aws_f_name = final1.data.file_name
         // console.log(nexrad_aws_url, aws_f_name)
         console.log("Ingestor Service Success")
 
         // for data plotting API call request
-         Axios.post(pl_url, {
+        const final2 = await Axios.post(pl_url, {
             user_id: ses_id, 
             url: nexrad_aws_url,
             file_name: aws_f_name
         })
-        .then(res =>{
-            cloud_image_url = res.data.cloud_plot_url
-            // console.log(cloud_image_url)
-            console.log("Plotting Service Success")
+        
+        cloud_image_url = final2.data.cloud_plot_url
+        // console.log(cloud_image_url)
+        console.log("Plotting Service Success")
 
-            // modifying the database with new results
-             Axios.patch(patch_url, {
-                id: ses_id, 
-                aws_url: nexrad_aws_url,
-                aws_fname: aws_f_name,
-                cloud_url: cloud_image_url
-            })
-            .then(res =>{
-                // console.log(res.data)
-                console.log("Database Updated with new values for request ->", ses_id)
+        // modifying the database with new results
+        const final3 = await Axios.patch(patch_url, {
+            id: ses_id, 
+            aws_url: nexrad_aws_url,
+            aws_fname: aws_f_name,
+            cloud_url: cloud_image_url
+        })
+
+        // console.log(res.data)
+        console.log("Database Updated with new values for request ->", ses_id)
 
                 // sending the cloud image url to the user
-                return response.status(201).json({cloud_url: cloud_image_url})
-            })
-        })
-    })}
-    catch(err){
+        return response.status(201).json({cloud_url: cloud_image_url})
+
+    }catch(err){
         console.log(err);
     }
 })
