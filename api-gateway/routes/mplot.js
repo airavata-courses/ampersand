@@ -4,7 +4,7 @@ const Axios = require('axios')
 
 const host_url = require('../Utilities.js');
 
-var users_url = host_url.host_url+":3001/merra"
+var users_url = host_url.host_url+":30001/merra"
 
 var py_url = "http://data-ingestor:81/satellite/"
 

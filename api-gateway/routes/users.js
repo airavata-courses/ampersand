@@ -62,31 +62,31 @@ router.post('/', async (req, res) => {
         // res.status(201).json(newUser)
         
         // mq producer code (sending to ingest_queue)
-        const aurl = host_url.host_url+":3001/singestq"
+        const aurl = host_url.host_url+":30001/singestq"
         console.log(aurl)
         const ingest_a = await axios({method:'post',url: aurl, data: newUser})
         console.log("INGEST MQ (sent) ->", ingest_a.data)
         
         // mq consumer code (receiving from ingest_queue)
-        const burl = host_url.host_url+":3001/ringestq"
+        const burl = host_url.host_url+":30001/ringestq"
         console.log(burl)
         const ingest_b = await axios({method:'post',url: burl, data: 'something'})
         console.log("INGEST MQ (received) ->", ingest_b.data)
         
         // sending the ingest queue data to next service
-        const curl = host_url.host_url+":3001/plot"
+        const curl = host_url.host_url+":30001/plot"
         // const curl = "http://api-gateway:3001/plot"
         console.log(curl)
         const image_url = await axios({method:'post',url: curl, data: newUser})
         
         // mq producer code (sending to plot_queue)
-        const durl = host_url.host_url+":3001/splotq"
+        const durl = host_url.host_url+":30001/splotq"
         console.log(durl)
         const plot_a = await axios({method:'post',url: durl, data: image_url.data})
         console.log("PLOT MQ (sent) ->", plot_a.data)
 
         // mq consumer code (receiving from plot_queue)
-        const eurl = host_url.host_url+":3001/rplotq"
+        const eurl = host_url.host_url+":30001/rplotq"
         console.log(eurl)
         const plot_b = await axios({method:'post',url: eurl, data: 'something'})
         console.log("PLOT MQ (received) ->", plot_b.data)
