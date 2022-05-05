@@ -1,0 +1,74 @@
+.App {
+    text-align: center;
+  }
+  
+  .appAside {
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #0e154d;
+  }
+  
+  .appForm {
+    width: 50%;
+    height: 100%;
+    background-color: #12130f;
+    padding: 30px 40px;
+    overflow: hidden;
+  }
+  
+  .lotties {
+    display: grid;
+    grid-template-columns: auto;
+  }
+  
+  @media only screen and (min-width: 800px) {
+    .lotties {
+      display: grid;
+      grid-template-columns: auto auto;
+    }
+  }
+
+  .login {
+    width: 70%;
+    align-items: center;
+    height: 100%;
+    border: 1px solid #CCC;
+    background: url(https://media4.giphy.com/media/BHNfhgU63qrks/giphy.gif) center center no-repeat;
+    background-size: cover;
+    padding-top: 5%;
+    margin: 30px auto;
+    border-radius: 20px;
+  }
+  .login .form {
+    align-items: center;
+    /* width: 70px; */
+    height: 100%;
+    padding: 15px 25px;
+  }
+  .login .form input {
+    width: 50%;
+    height: 50px;
+    margin-top: 20px;
+    background: rgba(255,255,255,.5);
+    border: 1px solid rgba(255,255,255,.1);
+    padding: 0 15px;
+    color: #FFF;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  .login .form input:focus {
+    border: 1px solid rgba(255,255,255,.8);
+    outline: none;
+  }
+  ::-webkit-input-placeholder {
+      color: #DDD;
+  }
+  .login .form input.submit {
+    background: rgba(255,255,255,.9);
+    color: #444;
+    font-size: 15px;
+    margin-top: 40px;
+    font-weight: bold;
+  }
+  

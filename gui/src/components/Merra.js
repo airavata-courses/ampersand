@@ -1,0 +1,48 @@
+import './Merra.css'
+import history from "./history.png";
+import React from 'react'
+import MerraMap from './Map/MerraMap';
+
+import {useTabs, withTabs} from "../context/TabsContext";
+import {Tabs, Tab} from "../components/Tabs";
+
+const host_url = require("../Utilities.js")
+
+document.title = "Dashboard";
+
+const params = new URLSearchParams(window.location.search);
+var username = params.get("username");
+
+if(username == null){
+    username = 'guest'
+}
+
+const tabs = {
+    firstTab: 'WELCOME ' + username.toLocaleUpperCase()
+}
+function Merra(){
+    const { setCurrentTab } = useTabs();
+    
+    function request(){
+        window.open( host_url.host_url+ ":30000/user/mrequest" + "/?username=" + username);
+        // window.open(host_url.host_url+ ":30001/merra")
+    }
+
+    return(<div>
+        <center>
+            <div>
+            <div className="wrapper">
+                    <Tabs tabs={tabs} defaultTab={tabs.firstTab} onTabSelect={(tab) => setCurrentTab(tab)}  className="custom-tab-container-class">
+                        <Tab id={tabs.firstTab}>
+                            <input type="image" src={history} style={{ height: "60px" , width: "60px", position:"absolute", right:"0", top:"15px", marginRight:"10px"}} onClick={request} />
+                        <MerraMap/>
+                        </Tab>
+                    </Tabs>
+            </div>
+            </div>
+        </center>
+    </div>
+    );
+}
+
+export default withTabs(Merra);

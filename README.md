@@ -1,9 +1,15 @@
-# Team ampersAND
-Spring 2022 Project Team 
+# Welcome to the ampersand wiki
 
-Team - 
+## Our Team:
+
+```
 1. Aditi Pednekar
 2. Dhruti Patel
 3. Nikhil Kamble
+```
 
-Refer Wiki Page for detailed information
+## Find links to our project milestones below:
+
+[Project Milestone 1](https://github.com/airavata-courses/ampersand/wiki/Project-Milestone-1)
+
+[Project Milestone 3](https://github.com/airavata-courses/ampersand/wiki/Project-Milestone-3)
