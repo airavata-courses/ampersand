@@ -1,0 +1,50 @@
+{
+  "Total" : {
+    "transaction" : "Total",
+    "sampleCount" : 1912,
+    "errorCount" : 880,
+    "errorPct" : 46.025105,
+    "meanResTime" : 24453.066422594144,
+    "medianResTime" : 15392.5,
+    "minResTime" : 535.0,
+    "maxResTime" : 90457.0,
+    "pct1ResTime" : 60040.0,
+    "pct2ResTime" : 60061.0,
+    "pct3ResTime" : 61550.74,
+    "throughput" : 14.315877745997994,
+    "receivedKBytesPerSec" : 27.543730415811858,
+    "sentKBytesPerSec" : 3.920376587325357
+  },
+  "Generate SSH credential" : {
+    "transaction" : "Generate SSH credential",
+    "sampleCount" : 785,
+    "errorCount" : 529,
+    "errorPct" : 67.388535,
+    "meanResTime" : 39582.61401273887,
+    "medianResTime" : 60017.0,
+    "minResTime" : 565.0,
+    "maxResTime" : 90457.0,
+    "pct1ResTime" : 60061.0,
+    "pct2ResTime" : 60121.1,
+    "pct3ResTime" : 88746.06,
+    "throughput" : 5.973761110434676,
+    "receivedKBytesPerSec" : 6.8556013284959825,
+    "sentKBytesPerSec" : 2.248691812903324
+  },
+  "Get JWKS" : {
+    "transaction" : "Get JWKS",
+    "sampleCount" : 1127,
+    "errorCount" : 351,
+    "errorPct" : 31.144632,
+    "meanResTime" : 13914.73913043479,
+    "medianResTime" : 7442.0,
+    "minResTime" : 535.0,
+    "maxResTime" : 60174.0,
+    "pct1ResTime" : 60029.0,
+    "pct2ResTime" : 60041.0,
+    "pct3ResTime" : 60089.88,
+    "throughput" : 8.43828149567978,
+    "receivedKBytesPerSec" : 20.79848970110364,
+    "sentKBytesPerSec" : 1.7078839343206698
+  }
+}
