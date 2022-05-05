@@ -1,5 +1,0 @@
-docker build -t account-service . -> To build the docker image
-docker rmi -f account-service -> To delete the docker image
-kubectl apply -f account-service-deployment.yaml -> To create kubernetes container
-kubectl delete -f account-service-deployment.yaml -> To delete kubernetes container
-kubectl get svc -> To check all the conatiners/services running in the kubernetes cluster
