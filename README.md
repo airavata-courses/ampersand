@@ -1,5 +1,3 @@
-# Welcome to the ampersand wiki
-
 ## Our Team:
 
 ```
@@ -8,8 +6,6 @@
 3. Nikhil Kamble
 ```
 
-## Find links to our project milestones below:
+## Find links to our project milestone 4 on our wiki page below:
 
-[Project Milestone 1](https://github.com/airavata-courses/ampersand/wiki/Project-Milestone-1)
-
-[Project Milestone 3](https://github.com/airavata-courses/ampersand/wiki/Project-Milestone-3)
+[Project Milestone 4](https://github.com/airavata-courses/ampersand/wiki/Project-Milestone-4)
